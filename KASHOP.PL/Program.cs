@@ -1,4 +1,7 @@
 
+using KASHOP.DAL.Data;
+using Microsoft.EntityFrameworkCore;
+
 namespace KASHOP.PL
 {
     public class Program
@@ -12,6 +15,11 @@ namespace KASHOP.PL
             builder.Services.AddControllers();
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             builder.Services.AddOpenApi();
+
+            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+            {
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefalutConnection"));
+            });
 
             var app = builder.Build();
 
