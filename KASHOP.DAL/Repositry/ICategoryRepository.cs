@@ -2,9 +2,7 @@
 
 namespace KASHOP.DAL.Repositry
 {
-    public interface ICategoryRepository
+    public interface ICategoryRepository : IGenericRepository<Category>
     {
-       Task<List<Category>> GetAllAsync();
-       Task<Category> CreateAsync(Category category);
     }
 }
