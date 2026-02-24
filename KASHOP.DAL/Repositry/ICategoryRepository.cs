@@ -4,7 +4,7 @@ namespace KASHOP.DAL.Repositry
 {
     public interface ICategoryRepository
     {
-        List <Category> GetAll();
-        Category Create(Category category);
+       Task<List<Category>> GetAllAsync();
+       Task<Category> CreateAsync(Category category);
     }
 }

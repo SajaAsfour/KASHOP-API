@@ -19,9 +19,9 @@ namespace KASHOP.PL.Controllers
         }
         [HttpGet("")]
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var categories = _categoryService.GetAllCategories();
+            var categories = await _categoryService.GetAllCategories();
             return Ok(
             new{
                 data= categories,
@@ -31,9 +31,9 @@ namespace KASHOP.PL.Controllers
 
         [HttpPost("")]
 
-        public IActionResult Create(CategoryRequest request) 
+        public async Task<IActionResult> Create(CategoryRequest request) 
         {
-            var response = _categoryService.CreateCategory(request);
+            var response = await _categoryService.CreateCategory(request);
             return Ok(new
             {
                 message = _localizer["Success"].Value,

@@ -12,16 +12,16 @@ namespace KASHOP.DAL.Repositry
             _context = context;
         }
 
-        public Category Create(Category category)
+        public async Task<Category> CreateAsync(Category category)
         {
-            _context.Categories.Add(category);
-            _context.SaveChanges();
+            await _context.AddAsync(category);
+            await _context.SaveChangesAsync();
             return category;
         }
 
-        public List<Category> GetAll()
+        public async Task<List<Category>> GetAllAsync()
         {
-            return _context.Categories.Include(c => c.Translations).ToList();
+            return await _context.Categories.Include(c => c.Translations).ToListAsync();
         }
     }
 }
