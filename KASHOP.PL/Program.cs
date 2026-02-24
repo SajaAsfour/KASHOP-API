@@ -1,4 +1,5 @@
 
+using KASHOP.BLL.Service;
 using KASHOP.DAL.Data;
 using KASHOP.DAL.Repositry;
 using Microsoft.AspNetCore.Localization;
@@ -51,6 +52,8 @@ namespace KASHOP.PL
             });
 
             builder.Services.AddScoped<ICategoryRepository , CategoryRepository>();
+
+            builder.Services.AddScoped<ICategoryService , CategoryService>();
 
             var app = builder.Build();
 
