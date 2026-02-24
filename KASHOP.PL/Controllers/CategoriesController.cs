@@ -1,5 +1,4 @@
-﻿using KASHOP.DAL.Data;
-using KASHOP.DAL.DTO.Request;
+﻿using KASHOP.DAL.DTO.Request;
 using KASHOP.DAL.DTO.Response;
 using KASHOP.DAL.Models;
 using KASHOP.DAL.Repositry;
