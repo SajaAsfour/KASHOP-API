@@ -1,10 +1,6 @@
 ﻿using KASHOP.BLL.Service;
 using KASHOP.DAL.DTO.Request;
-using KASHOP.DAL.DTO.Response;
-using KASHOP.DAL.Models;
-using KASHOP.DAL.Repositry;
 using KASHOP.PL.Resourses;
-using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 
