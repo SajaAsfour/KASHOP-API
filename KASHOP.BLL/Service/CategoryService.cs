@@ -3,6 +3,7 @@ using KASHOP.DAL.DTO.Response;
 using KASHOP.DAL.Models;
 using KASHOP.DAL.Repositry;
 using Mapster;
+using System.Linq.Expressions;
 
 namespace KASHOP.BLL.Service
 {
@@ -26,6 +27,12 @@ namespace KASHOP.BLL.Service
             var categories = await _categoryRepository.GetAllAsync(new string[] { nameof(Category.Translations)});
 
             return categories.Adapt<List<CategoryResponse>>();
+        }
+
+        public async Task<CategoryResponse?> GetCategory(Expression<Func<Category,bool>> filter)
+        {
+            var category = await _categoryRepository.GetOne(filter , new string[] {nameof(Category.Translations)});
+            return category.Adapt<CategoryResponse>();
         }
     }
 }

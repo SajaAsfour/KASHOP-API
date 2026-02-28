@@ -1,6 +1,7 @@
 ﻿using KASHOP.DAL.Data;
 using KASHOP.DAL.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace KASHOP.DAL.Repositry
 {
@@ -30,6 +31,20 @@ namespace KASHOP.DAL.Repositry
                 }
             }
             return await query.ToListAsync();
+        }
+
+        public async Task<T> GetOne(Expression<Func<T,bool>> filter,string[]? includes =null)
+        {
+            IQueryable<T> query = _context.Set<T>();
+            if (includes != null)
+            {
+                foreach (var include in includes)
+                {
+                    query = query.Include(include);
+                }
+            }
+
+            return await query.FirstOrDefaultAsync(filter);
         }
     }
 }
