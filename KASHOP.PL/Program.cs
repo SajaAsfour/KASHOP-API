@@ -1,7 +1,9 @@
 
 using KASHOP.BLL.Service;
 using KASHOP.DAL.Data;
+using KASHOP.DAL.Models;
 using KASHOP.DAL.Repositry;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -54,6 +56,10 @@ namespace KASHOP.PL
             builder.Services.AddScoped<ICategoryRepository , CategoryRepository>();
 
             builder.Services.AddScoped<ICategoryService , CategoryService>();
+
+            builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
+            builder.Services.AddIdentity<ApplicationUser,IdentityRole>().
+                AddEntityFrameworkStores<ApplicationDbContext>();   
 
             var app = builder.Build();
 
