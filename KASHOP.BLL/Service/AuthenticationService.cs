@@ -31,6 +31,8 @@ namespace KASHOP.BLL.Service
                 };
             }
 
+            await _userManager.AddToRoleAsync(user, "User");
+
             return new RegisterResponse()
             {
                 Success = true,
