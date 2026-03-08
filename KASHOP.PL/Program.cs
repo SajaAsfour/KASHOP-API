@@ -62,8 +62,10 @@ namespace KASHOP.PL
 
             builder.Services.AddScoped<ISeedData,RoleSeedData>();
 
+            builder.Services.AddTransient<IEmailSender, EmailSender>();
+
             builder.Services.AddIdentity<ApplicationUser,IdentityRole>().
-                AddEntityFrameworkStores<ApplicationDbContext>();   
+                AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();   
 
             var app = builder.Build();
 
