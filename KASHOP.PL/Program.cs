@@ -88,7 +88,8 @@ namespace KASHOP.PL
                 var seeders = services.GetServices<ISeedData>();
                 foreach (var seeder in seeders)
                 {
-                    await seeder.DataSeed();                }
+                    await seeder.DataSeed();
+                }
             }
 
             app.Run();
