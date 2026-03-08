@@ -39,5 +39,32 @@ namespace KASHOP.BLL.Service
                 Message = "Success"
             };
         }
+        public async Task<LoginResponse> LoginAsync(LoginRequest request)
+        {
+            var user = await _userManager.FindByEmailAsync(request.Email);
+            if(user is null)
+            {
+                return new LoginResponse()
+                {
+                    Success = false,
+                    Message = "Invalid Email"
+                };
+            }
+
+            var result = await _userManager.CheckPasswordAsync(user, request.Password);
+            if (!result)
+            {
+                return new LoginResponse()
+                {
+                    Success = false,
+                    Message = "Invalid Password"
+                };
+            }
+            return new LoginResponse()
+            {
+                Success = true,
+                Message = "Success"
+            };
+        }
     }
 }
