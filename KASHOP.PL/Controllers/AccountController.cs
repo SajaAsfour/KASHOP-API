@@ -19,6 +19,7 @@ namespace KASHOP.PL.Controllers
         public async Task<IActionResult> Register (RegisterRequest request)
         {
             var result = await _authenticationService.RegisterAsync(request);
+            if (!result.Success) return BadRequest(result);
             return Ok(result);
         }
 
@@ -31,12 +32,11 @@ namespace KASHOP.PL.Controllers
         }
 
         [HttpGet("ConfirmEmail")]
-        public async Task<IActionResult> ConfirmEmail(string token)
+        public async Task<IActionResult> ConfirmEmail(string token ,string userId)
         {
-            return Ok(new
-            {
-                message = "Ok"
-            });
+            var isConfirmed = await _authenticationService.ConfirmEmailAsync(token, userId);
+            if (isConfirmed) return Ok();
+            return BadRequest();
         }
     }
 }

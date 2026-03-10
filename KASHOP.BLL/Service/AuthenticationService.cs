@@ -37,7 +37,10 @@ namespace KASHOP.BLL.Service
             await _userManager.AddToRoleAsync(user, "User");
 
             var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-            var emailUrl = $"https://localhost:7001/api/Account/ConfirmEmail?token={token}";
+
+            token = Uri.EscapeDataString(token);
+
+            var emailUrl = $"https://localhost:7001/api/Account/ConfirmEmail?token={token}&userId={user.Id}";
 
             await _emailSender.SendEmailAsync(user.Email, "Welcome", $"<h1> Welcome {user.UserName} </h1>" +
                 $"" +
@@ -60,6 +63,16 @@ namespace KASHOP.BLL.Service
                 };
             }
 
+            if(!await _userManager.IsEmailConfirmedAsync(user))
+            {
+
+                return new LoginResponse()
+                {
+                    Success = false,
+                    Message = "Email is not confirmed"
+                };
+            }
+
             var result = await _userManager.CheckPasswordAsync(user, request.Password);
             if (!result)
             {
@@ -74,6 +87,18 @@ namespace KASHOP.BLL.Service
                 Success = true,
                 Message = "Success"
             };
+        }
+
+        public async Task<bool> ConfirmEmailAsync(string token, string userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+
+            if(user is null) return false;
+
+            var result = await _userManager.ConfirmEmailAsync(user, token);
+
+            if (!result.Succeeded) return false;
+            return true;
         }
     }
 }
