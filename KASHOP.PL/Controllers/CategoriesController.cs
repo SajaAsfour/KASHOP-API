@@ -1,6 +1,7 @@
 ﻿using KASHOP.BLL.Service;
 using KASHOP.DAL.DTO.Request;
 using KASHOP.PL.Resourses;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 
@@ -30,7 +31,7 @@ namespace KASHOP.PL.Controllers
         }
 
         [HttpPost("")]
-
+        [Authorize]
         public async Task<IActionResult> Create(CategoryRequest request) 
         {
             var response = await _categoryService.CreateCategory(request);
