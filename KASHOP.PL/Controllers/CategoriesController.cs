@@ -49,6 +49,7 @@ namespace KASHOP.PL.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> Delete(int id)
         {
             var deleted = await _categoryService.DeleteCategory(id);
