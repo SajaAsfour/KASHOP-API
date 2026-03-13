@@ -10,5 +10,6 @@ namespace KASHOP.DAL.DTO.Response
     {
         public string Message { get; set; }
         public bool Success { get; set; }
+        public string? AccrssToken { get; set; }
     }
 }

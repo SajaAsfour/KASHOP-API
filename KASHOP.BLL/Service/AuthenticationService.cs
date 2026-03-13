@@ -3,9 +3,13 @@ using KASHOP.DAL.DTO.Response;
 using KASHOP.DAL.Models;
 using Mapster;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,11 +19,15 @@ namespace KASHOP.BLL.Service
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IEmailSender _emailSender;
+        private readonly IConfiguration _configuration;
 
-        public AuthenticationService (UserManager<ApplicationUser> userManager , IEmailSender emailSender)
+        public AuthenticationService (UserManager<ApplicationUser> userManager 
+            , IEmailSender emailSender
+            ,IConfiguration configuration)
         {
             _userManager = userManager;
             _emailSender = emailSender;
+            _configuration = configuration;
         }
         public async Task<RegisterResponse> RegisterAsync(RegisterRequest request)
         {
@@ -85,7 +93,8 @@ namespace KASHOP.BLL.Service
             return new LoginResponse()
             {
                 Success = true,
-                Message = "Success"
+                Message = "Success",
+                AccrssToken = await GenerateAccessToken(user)
             };
         }
 
@@ -99,6 +108,29 @@ namespace KASHOP.BLL.Service
 
             if (!result.Succeeded) return false;
             return true;
+        }
+
+        public async Task<string> GenerateAccessToken(ApplicationUser user)
+        {
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:SecretKey"]!));
+            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+            var userClaims = new List<Claim>() 
+            {
+                new Claim(ClaimTypes.NameIdentifier, user.Id),
+                new Claim(ClaimTypes.Name, user.UserName),
+                new Claim(ClaimTypes.Email, user.Email),
+            };
+
+            var token = new JwtSecurityToken(
+                 issuer: _configuration["Jwt:Issuer"],
+                 audience: _configuration["Jwt:Audience"],
+                 claims: userClaims,
+                 expires: DateTime.Now.AddDays(5),
+                 signingCredentials: credentials
+            );
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
     }
 }
