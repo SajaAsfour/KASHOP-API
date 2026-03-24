@@ -2,7 +2,8 @@
 {
     public class CategoryResponse
     {
-        public int Id { get; set; }
-        public List<CategoryTranslationsResponse> Translations {  get; set; }
+        public int category_Id { get; set; }
+        public string UserCreated { get; set; }
+        public string Name { get; set; }
     }
 }

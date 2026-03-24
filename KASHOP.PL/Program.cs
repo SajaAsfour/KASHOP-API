@@ -1,4 +1,5 @@
 
+using KASHOP.BLL.Mapping;
 using KASHOP.BLL.Service;
 using KASHOP.DAL.Data;
 using KASHOP.DAL.Models;
@@ -116,6 +117,8 @@ namespace KASHOP.PL
                 });
 
             builder.Services.AddAuthorization();
+
+            MapsterConfig.MapsterConfigRegister();
 
             var app = builder.Build();
 
