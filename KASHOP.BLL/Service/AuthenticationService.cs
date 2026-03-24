@@ -42,7 +42,8 @@ namespace KASHOP.BLL.Service
                 return new RegisterResponse()
                 {
                     Success = false,
-                    Message = "Error"
+                    Message = "Error",
+                    Errors  = result.Errors.Select( p => p.Description).ToList()
                 };
             }
 
