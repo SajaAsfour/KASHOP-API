@@ -118,6 +118,7 @@ namespace KASHOP.PL
 
             builder.Services.AddAuthorization();
 
+            builder.Services.AddHttpContextAccessor();
             MapsterConfig.MapsterConfigRegister();
 
             var app = builder.Build();
