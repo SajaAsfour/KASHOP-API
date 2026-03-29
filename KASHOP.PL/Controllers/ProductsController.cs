@@ -35,6 +35,18 @@ namespace KASHOP.PL.Controllers
             });
         }
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(int id)
+        {
+            var product = await _productService.GetProductAsync(p => p.Id == id);
+            if (product == null) return NotFound();
+            return Ok(new
+            {
+                data = product,
+                message = _localizer["Success"].Value
+            });
+        }
+
         [HttpPost("")]
         [Authorize]
 

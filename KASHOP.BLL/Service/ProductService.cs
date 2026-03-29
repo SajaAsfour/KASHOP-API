@@ -6,6 +6,7 @@ using Mapster;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -42,6 +43,20 @@ namespace KASHOP.BLL.Service
                 nameof(Category.CreatedBy)
             });
             return products.Adapt<List<ProductResponse>>();
+        }
+
+        public async Task<ProductResponse?> GetProductAsync(Expression<Func<Product, bool>> filter)
+        {
+            var product = await _productRepository.GetOne(
+                filter,
+                new string[]
+            {
+                nameof(Category.Translations) ,
+                nameof(Category.CreatedBy)
+            });
+            if(product == null) return null;
+            
+            return product.Adapt<ProductResponse>();
         }
     }
 }
