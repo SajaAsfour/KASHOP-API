@@ -81,6 +81,10 @@ namespace KASHOP.PL
 
             builder.Services.AddTransient<IEmailSender, EmailSender>();
 
+            builder.Services.AddScoped<IFileService, FileService>();
+            builder.Services.AddScoped<IProductRepository, ProductRepository>();
+            builder.Services.AddScoped<IProductService, ProductService>();
+
             builder.Services.AddIdentity<ApplicationUser,IdentityRole>(options =>
             {
                 options.User.RequireUniqueEmail= true;
