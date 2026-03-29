@@ -9,6 +9,16 @@ namespace KASHOP.BLL.Service
 {
     public class FileService : IFileService
     {
+        public void Delete(string filename)
+        {
+            var path = Path.Combine(
+                Directory.GetCurrentDirectory(),
+                "wwwroot",
+                "images",
+                filename);
+            if(File.Exists(path)) File.Delete(path);
+        }
+
         public async Task<string>? UploadAsync(IFormFile file)
         {
             if(file != null & file.Length  > 0)

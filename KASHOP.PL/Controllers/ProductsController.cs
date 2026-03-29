@@ -58,5 +58,24 @@ namespace KASHOP.PL.Controllers
                 message = _localizer["Success"].Value,
             });
         }
+
+        [HttpDelete("{id}")]
+        [Authorize]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var deleted = await _productService.DeleteProductAsync(id);
+            if (!deleted)
+            {
+                return NotFound(new
+                {
+                    message = _localizer["NotFound"].Value
+                });
+            }
+
+            return Ok(new
+            {
+                message = _localizer["Success"].Value
+            });
+        }
     }
 }
