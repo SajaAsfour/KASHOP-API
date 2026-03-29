@@ -24,6 +24,17 @@ namespace KASHOP.PL.Controllers
             _localizer = localizer;
         }
 
+        [HttpGet("")]
+        public async Task<IActionResult> Index()
+        {
+            var products = await _productService.GetAllProductsAsync();
+            return Ok(new
+            {
+                data = products,
+                message = _localizer["Success"].Value
+            });
+        }
+
         [HttpPost("")]
         [Authorize]
 

@@ -18,12 +18,13 @@ namespace KASHOP.BLL.Service
 
                 var filePath = Path.Combine(
                     Directory.GetCurrentDirectory(),
+                    "wwwroot",
                     "images",
                     fileName);
 
                 using(var stream = File.Create(filePath))
                 {
-                    await stream.CopyToAsync(stream);
+                    await file.CopyToAsync(stream);
                 }
 
                 return fileName;

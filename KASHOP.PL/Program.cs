@@ -142,7 +142,7 @@ namespace KASHOP.PL
             app.UseAuthentication();
             app.UseAuthorization();
 
-
+            app.UseStaticFiles();
             app.MapControllers();
 
             using (var scope = app.Services.CreateScope())
