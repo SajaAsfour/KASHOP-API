@@ -33,6 +33,19 @@ namespace KASHOP.PL.Controllers
             });
         }
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(int id)
+        {
+            var brand = await _brandService.GetBrandAsync(b => b.Id == id);
+            if (brand == null) return NotFound();
+            return Ok(new
+            {
+                data = brand,
+                message = _localizer["Success"].Value
+
+            });
+        }
+
         [HttpPost("")]
         [Authorize]
         public async Task<IActionResult> Create([FromForm] BrandRequest request)
