@@ -89,6 +89,9 @@ namespace KASHOP.PL
 
             builder.Services.AddScoped<IUrlService, UrlService>();
 
+            builder.Services.AddScoped<IBrandService, BrandService>();
+            builder.Services.AddScoped<IBrandRepository, BrandRepository>();
+
             builder.Services.AddIdentity<ApplicationUser,IdentityRole>(options =>
             {
                 options.User.RequireUniqueEmail= true;
