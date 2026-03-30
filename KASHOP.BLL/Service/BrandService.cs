@@ -1,4 +1,6 @@
-﻿using KASHOP.DAL.Repositry;
+﻿using KASHOP.DAL.DTO.Request;
+using KASHOP.DAL.Models;
+using KASHOP.DAL.Repositry;
 using MapsterMapper;
 using System;
 using System.Collections.Generic;
@@ -21,6 +23,18 @@ namespace KASHOP.BLL.Service
             _brandRepository = brandRepository;
             _fileService = fileService;
             _mapper = mapper;
+        }
+
+        public async Task CreateBrandAsync(BrandRequest request)
+        {
+            var brand = _mapper.Map<Brand>(request);
+            if(brand.Logo != null)
+            {
+                var imagePath = await _fileService.UploadAsync(request.Logo);
+                brand.Logo = imagePath;
+            }
+
+            await _brandRepository.CreateAsync(brand);
         }
     }
 }

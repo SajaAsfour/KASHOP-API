@@ -1,4 +1,5 @@
-﻿using System;
+﻿using KASHOP.DAL.DTO.Request;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +9,6 @@ namespace KASHOP.BLL.Service
 {
     public interface IBrandService
     {
+        public Task CreateBrandAsync(BrandRequest request);
     }
 }

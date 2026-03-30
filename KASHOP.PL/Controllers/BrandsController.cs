@@ -1,5 +1,7 @@
 ﻿using KASHOP.BLL.Service;
+using KASHOP.DAL.DTO.Request;
 using KASHOP.PL.Resourses;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
@@ -17,6 +19,17 @@ namespace KASHOP.PL.Controllers
         {
             _brandService = brandService;
             _localizer = localizer;
+        }
+
+        [HttpPost("")]
+        [Authorize]
+        public async Task<IActionResult> Create([FromForm] BrandRequest request)
+        {
+            await _brandService.CreateBrandAsync(request);
+            return Ok(new
+            {
+                message = _localizer["Success"].Value,
+            });
         }
     }
 }
