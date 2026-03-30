@@ -15,5 +15,6 @@ namespace KASHOP.BLL.Service
         public Task CreateBrandAsync(BrandRequest request);
         public Task<List<BrandResponse>> GetAllBrandsAsync();
         public Task<BrandResponse?> GetBrandAsync(Expression<Func<Brand, bool>> filter);
+        public Task<bool> DeleteBrandAsync(int id);
     }
 }

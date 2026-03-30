@@ -39,6 +39,14 @@ namespace KASHOP.BLL.Service
             await _brandRepository.CreateAsync(brand);
         }
 
+        public async Task<bool> DeleteBrandAsync(int id)
+        {
+            var brand = await _brandRepository.GetOne(b => b.Id == id);
+            if (brand == null) return false;
+            _fileService.Delete(brand.Logo);
+            return await _brandRepository.DeleteAsync(brand);
+        }
+
         public async Task<List<BrandResponse>> GetAllBrandsAsync()
         {
             var brands = await _brandRepository.GetAllAsync(
@@ -62,3 +70,4 @@ namespace KASHOP.BLL.Service
         }
     }
 }
+ 
