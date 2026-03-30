@@ -1,4 +1,5 @@
 ﻿using KASHOP.DAL.DTO.Request;
+using KASHOP.DAL.DTO.Response;
 using KASHOP.DAL.Models;
 using KASHOP.DAL.Repositry;
 using MapsterMapper;
@@ -35,6 +36,17 @@ namespace KASHOP.BLL.Service
             }
 
             await _brandRepository.CreateAsync(brand);
+        }
+
+        public async Task<List<BrandResponse>> GetAllBrandsAsync()
+        {
+            var brands = await _brandRepository.GetAllAsync(
+                new string[]
+                {
+                    nameof(Brand.BrandTranslations),
+                    nameof(Brand.CreatedBy)
+                });
+            return _mapper.Map<List<BrandResponse>>(brands);
         }
     }
 }

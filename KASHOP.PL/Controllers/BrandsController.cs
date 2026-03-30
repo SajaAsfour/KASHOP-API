@@ -21,6 +21,18 @@ namespace KASHOP.PL.Controllers
             _localizer = localizer;
         }
 
+        [HttpGet("")]
+        public async Task<IActionResult> Index()
+        {
+            var brands = await _brandService.GetAllBrandsAsync();
+            return Ok(new
+            {
+                data = brands,
+                message = _localizer["Success"].Value
+
+            });
+        }
+
         [HttpPost("")]
         [Authorize]
         public async Task<IActionResult> Create([FromForm] BrandRequest request)
