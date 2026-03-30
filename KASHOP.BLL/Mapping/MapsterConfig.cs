@@ -30,6 +30,15 @@ namespace KASHOP.BLL.Mapping
                 .Map(dest =>dest.MainImage , 
                 source => MapContext.Current.GetService<IUrlService>()
                 .GetImageUrl(source.MainImage));
+
+            TypeAdapterConfig<Brand, BrandResponse>.NewConfig()
+                .Map(dest => dest.UserCreated, source => source.CreatedBy.UserName)
+                .Map(dest => dest.Name, source => source.BrandTranslations.Where(
+                    t => t.Language == CultureInfo.CurrentCulture.Name).Select(
+                    t => t.Name).FirstOrDefault())
+                .Map(dest => dest.Logo,
+                source => MapContext.Current.GetService<IUrlService>()
+                .GetImageUrl(source.Logo));
         }
     }
 }
