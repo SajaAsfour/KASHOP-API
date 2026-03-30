@@ -38,7 +38,7 @@ namespace KASHOP.PL.Controllers
             return Ok(new
             {
                 message = _localizer["Success"].Value,
-                data= response
+                category_id= response.category_Id
             });
         }
 
