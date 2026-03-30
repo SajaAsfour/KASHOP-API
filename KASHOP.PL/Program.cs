@@ -5,6 +5,8 @@ using KASHOP.DAL.Data;
 using KASHOP.DAL.Models;
 using KASHOP.DAL.Repositry;
 using KASHOP.DAL.utils;
+using Mapster;
+using MapsterMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
@@ -85,6 +87,8 @@ namespace KASHOP.PL
             builder.Services.AddScoped<IProductRepository, ProductRepository>();
             builder.Services.AddScoped<IProductService, ProductService>();
 
+            builder.Services.AddScoped<IUrlService, UrlService>();
+
             builder.Services.AddIdentity<ApplicationUser,IdentityRole>(options =>
             {
                 options.User.RequireUniqueEmail= true;
@@ -124,6 +128,8 @@ namespace KASHOP.PL
 
             builder.Services.AddHttpContextAccessor();
             MapsterConfig.MapsterConfigRegister();
+            builder.Services.AddSingleton(TypeAdapterConfig.GlobalSettings);
+            builder.Services.AddScoped<IMapper, ServiceMapper>();
 
             var app = builder.Build();
 

@@ -3,6 +3,7 @@ using KASHOP.DAL.DTO.Response;
 using KASHOP.DAL.Models;
 using KASHOP.DAL.Repositry;
 using Mapster;
+using MapsterMapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,16 +17,20 @@ namespace KASHOP.BLL.Service
     {
         private readonly IProductRepository _productRepository;
         private readonly IFileService _fileService;
+        private readonly IMapper _mapper;
 
-        public ProductService(IProductRepository productRepository , IFileService fileService) 
+        public ProductService(IProductRepository productRepository 
+            , IFileService fileService
+            ,IMapper mapper) 
         {
             _productRepository = productRepository;
             _fileService = fileService;
+            _mapper = mapper;
         }
 
         public async Task CreateProductAsync(ProductRequest request)
         {
-            var product = request.Adapt<Product>();
+            var product = _mapper.Map<Product>(request);
             if(request.MainImage != null)
             {
                 var imagePath = await _fileService.UploadAsync(request.MainImage);
@@ -50,7 +55,7 @@ namespace KASHOP.BLL.Service
                 nameof(Category.Translations) ,
                 nameof(Category.CreatedBy)
             });
-            return products.Adapt<List<ProductResponse>>();
+            return _mapper.Map<List<ProductResponse>>(products);
         }
 
         public async Task<ProductResponse?> GetProductAsync(Expression<Func<Product, bool>> filter)
@@ -64,7 +69,7 @@ namespace KASHOP.BLL.Service
             });
             if(product == null) return null;
             
-            return product.Adapt<ProductResponse>();
+            return _mapper.Map<ProductResponse>(product);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using KASHOP.DAL.DTO.Response;
+﻿using KASHOP.BLL.Service;
+using KASHOP.DAL.DTO.Response;
 using KASHOP.DAL.Models;
 using Mapster;
 using System;
@@ -26,7 +27,9 @@ namespace KASHOP.BLL.Mapping
                 .Map(dest => dest.Name, source => source.Translations.Where(
                     t => t.Language == CultureInfo.CurrentCulture.Name).Select(
                     t => t.Name).FirstOrDefault())
-                .Map(dest =>dest.MainImage , source => $"https://localhost:7001/images/{source.MainImage}");
+                .Map(dest =>dest.MainImage , 
+                source => MapContext.Current.GetService<IUrlService>()
+                .GetImageUrl(source.MainImage));
         }
     }
 }
