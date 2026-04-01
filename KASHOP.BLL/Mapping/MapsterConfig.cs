@@ -49,6 +49,12 @@ namespace KASHOP.BLL.Mapping
                 .IgnoreNullValues(true)
                 .Ignore(dest => dest.Translations);
 
+            TypeAdapterConfig<BrandUpdateRequest, Brand>.NewConfig()
+                .IgnoreNullValues(true)
+                .Ignore(dest => dest.Logo)
+                .Ignore(dest => dest.BrandTranslations);
+
+
         }
     }
 }

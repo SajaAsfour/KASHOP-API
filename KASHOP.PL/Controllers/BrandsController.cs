@@ -75,5 +75,17 @@ namespace KASHOP.PL.Controllers
                 message = _localizer["Success"].Value
             });
         }
+
+        [HttpPatch("{id}")]
+        [Authorize]
+        public async Task<IActionResult> Update(int id , [FromForm] BrandUpdateRequest request)
+        {
+            var updated = await _brandService.UpdateBrandAsync(id, request);
+            if (!updated) return BadRequest();
+            return Ok(new
+            {
+                message = _localizer["Success"].Value
+            });
+        }
     }
 }

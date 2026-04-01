@@ -12,9 +12,10 @@ namespace KASHOP.BLL.Service
 {
     public interface IBrandService
     {
-        public Task CreateBrandAsync(BrandRequest request);
-        public Task<List<BrandResponse>> GetAllBrandsAsync();
-        public Task<BrandResponse?> GetBrandAsync(Expression<Func<Brand, bool>> filter);
-        public Task<bool> DeleteBrandAsync(int id);
+        Task CreateBrandAsync(BrandRequest request);
+        Task<List<BrandResponse>> GetAllBrandsAsync();
+        Task<BrandResponse?> GetBrandAsync(Expression<Func<Brand, bool>> filter);
+        Task<bool> DeleteBrandAsync(int id);
+        Task<bool> UpdateBrandAsync(int id , BrandUpdateRequest request);
     }
 }

@@ -2,6 +2,7 @@
 using KASHOP.DAL.DTO.Response;
 using KASHOP.DAL.Models;
 using KASHOP.DAL.Repositry;
+using Mapster;
 using MapsterMapper;
 using System;
 using System.Collections.Generic;
@@ -67,6 +68,59 @@ namespace KASHOP.BLL.Service
             });
             if (brand == null) return null;
             return _mapper.Map<BrandResponse>(brand);
+        }
+
+        public async Task<bool> UpdateBrandAsync(int id, BrandUpdateRequest request)
+        {
+            var brand = await _brandRepository.GetOne(b => b.Id == id,
+                new string[]
+                {
+                    nameof(Brand.BrandTranslations)
+                });
+
+            if (brand == null) return false;
+            if (request.BrandTranslations == null || !request.BrandTranslations.Any())
+                return false;
+
+            foreach (var translationRequest in request.BrandTranslations)
+            {
+                var existing = brand.BrandTranslations
+                    .FirstOrDefault(t => t.Language == translationRequest.Language);
+
+                if (existing != null)
+                {
+                    if (translationRequest.Name != null)
+                        existing.Name = translationRequest.Name;
+                }
+                else
+                {
+                    if (translationRequest.Name != null)
+                    {
+                        brand.BrandTranslations.Add(new BrandTranslation
+                        {
+                            Language = translationRequest.Language,
+                            Name = translationRequest.Name,
+                            BrandId = brand.Id
+                        });
+                    }
+                }
+            }
+
+            var oldLogo = brand.Logo;
+
+            if (request.Logo != null)
+            {
+                if (!string.IsNullOrEmpty(oldLogo))
+                    _fileService.Delete(oldLogo);
+
+                brand.Logo = await _fileService.UploadAsync(request.Logo);
+            }
+            else
+            {
+                brand.Logo = oldLogo;
+            }
+
+            return await _brandRepository.UpdateAsync(brand);
         }
     }
 }
