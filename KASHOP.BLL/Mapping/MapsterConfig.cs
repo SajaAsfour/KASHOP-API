@@ -44,6 +44,11 @@ namespace KASHOP.BLL.Mapping
             TypeAdapterConfig<ProductUpdateRequest, Product>.NewConfig()
                 .IgnoreNullValues(true)
                 .Ignore(dest => dest.MainImage);
+
+            TypeAdapterConfig<CategoryUpdateRequest, Category>.NewConfig()
+                .IgnoreNullValues(true)
+                .Ignore(dest => dest.Translations);
+
         }
     }
 }

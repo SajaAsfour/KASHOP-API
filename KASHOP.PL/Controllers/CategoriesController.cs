@@ -24,21 +24,21 @@ namespace KASHOP.PL.Controllers
         {
             var categories = await _categoryService.GetAllCategoriesAsync();
             return Ok(
-            new{
-                data= categories,
+            new {
+                data = categories,
                 _localizer["Success"].Value
             });
         }
 
         [HttpPost("")]
         [Authorize]
-        public async Task<IActionResult> Create(CategoryRequest request) 
+        public async Task<IActionResult> Create(CategoryRequest request)
         {
             var response = await _categoryService.CreateCategoryAsync(request);
             return Ok(new
             {
                 message = _localizer["Success"].Value,
-                category_id= response.category_Id
+                category_id = response.category_Id
             });
         }
 
@@ -67,5 +67,16 @@ namespace KASHOP.PL.Controllers
             });
         }
 
+        [HttpPatch("{id}")]
+        [Authorize]
+        public async Task<IActionResult> Update(int id , CategoryUpdateRequest request)
+        {
+            var updated = await _categoryService.UpdateCategoryAsync(id, request);
+            if (!updated) return BadRequest();
+            return Ok(new
+            {
+                message = _localizer["Success"].Value
+            });
+        }
     } 
 }

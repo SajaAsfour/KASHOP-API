@@ -49,5 +49,46 @@ namespace KASHOP.BLL.Service
                 });
             return category.Adapt<CategoryResponse>();
         }
+
+        public async Task<bool> UpdateCategoryAsync(int id, CategoryUpdateRequest request)
+        {
+            var category = await _categoryRepository.GetOne(c => c.Id == id,
+                new string[]
+                {
+                    nameof(Category.Translations)
+                });
+
+            if (category == null) return false;
+            if (request.Translations == null || !request.Translations.Any()) return false;
+
+            foreach (var translationRequest in request.Translations)
+            {
+                var existingTranslation = category.Translations
+                    .FirstOrDefault(t => t.Language == translationRequest.Language);
+
+                if (existingTranslation != null)
+                {
+                    if (translationRequest.Name != null)
+                    {
+                        existingTranslation.Name = translationRequest.Name;
+                    }
+                }
+                else
+                {
+                    if (translationRequest.Name != null)
+                    {
+                        category.Translations.Add(new CategoryTranslation
+                        {
+                            Language = translationRequest.Language,
+                            Name = translationRequest.Name,
+                            CategoryId = category.Id
+                        });
+                    }
+                }
+            }
+
+            return await _categoryRepository.UpdateAsync(category);
+        }
+
     }
 }
