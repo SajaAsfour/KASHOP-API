@@ -9,7 +9,7 @@ namespace KASHOP.BLL.Service
 {
     public class FileService : IFileService
     {
-        public void Delete(string filename)
+        public void DeleteAsync(string filename)
         {
             var path = Path.Combine(
                 Directory.GetCurrentDirectory(),

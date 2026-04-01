@@ -27,9 +27,13 @@ namespace KASHOP.DAL.Repositry
             return affected > 0;
         }
 
-        public async Task<List<T>> GetAllAsync(string[]? includes = null)
+        public async Task<List<T>> GetAllAsync(Expression<Func<T,bool>> filter,string[]? includes = null)
         {
             IQueryable <T> query = _context.Set<T>();
+
+            if(filter!= null)
+                query = query.Where(filter);
+
             if (includes != null)
             {
                 foreach (var include in includes)
@@ -40,7 +44,7 @@ namespace KASHOP.DAL.Repositry
             return await query.ToListAsync();
         }
 
-        public async Task<T?> GetOne(Expression<Func<T,bool>> filter,string[]? includes =null)
+        public async Task<T?> GetOneAsync(Expression<Func<T,bool>> filter,string[]? includes =null)
         {
             IQueryable<T> query = _context.Set<T>();
             if (includes != null)

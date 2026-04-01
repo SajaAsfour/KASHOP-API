@@ -24,14 +24,16 @@ namespace KASHOP.BLL.Service
 
         public async Task<bool> DeleteCategoryAsync(int id)
         {
-            var category = await _categoryRepository.GetOne(c => c.Id == id);
+            var category = await _categoryRepository.GetOneAsync(c => c.Id == id);
             if(category == null) return false;
             return await _categoryRepository.DeleteAsync(category);
         }
 
         public async Task<List<CategoryResponse>> GetAllCategoriesAsync()
         {
-            var categories = await _categoryRepository.GetAllAsync(new string[] 
+            var categories = await _categoryRepository.GetAllAsync(
+                c=>c.Status == EntitiyStatus.Active,
+                new string[] 
             { 
                 nameof(Category.Translations) ,
                 nameof(Category.CreatedBy)
@@ -42,7 +44,7 @@ namespace KASHOP.BLL.Service
 
         public async Task<CategoryResponse?> GetCategoryAsync(Expression<Func<Category,bool>> filter)
         {
-            var category = await _categoryRepository.GetOne(filter ,
+            var category = await _categoryRepository.GetOneAsync(filter ,
                 new string[] {
                     nameof(Category.Translations),
                     nameof(Category.CreatedBy)
@@ -50,9 +52,18 @@ namespace KASHOP.BLL.Service
             return category.Adapt<CategoryResponse>();
         }
 
+        public async Task<bool> ToggleStatusAsync(int id)
+        {
+            var category = await _categoryRepository.GetOneAsync(c=>c.Id  == id);
+            if(category is null) return false;
+            category.Status = category.Status == EntitiyStatus.Active ?
+                EntitiyStatus.Inactive : EntitiyStatus.Active;
+            return await _categoryRepository.UpdateAsync(category);
+        }
+
         public async Task<bool> UpdateCategoryAsync(int id, CategoryUpdateRequest request)
         {
-            var category = await _categoryRepository.GetOne(c => c.Id == id,
+            var category = await _categoryRepository.GetOneAsync(c => c.Id == id,
                 new string[]
                 {
                     nameof(Category.Translations)

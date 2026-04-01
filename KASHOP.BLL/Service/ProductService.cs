@@ -42,15 +42,17 @@ namespace KASHOP.BLL.Service
 
         public async Task<bool> DeleteProductAsync(int id)
         {
-            var product = await _productRepository.GetOne( p => p.Id == id );
+            var product = await _productRepository.GetOneAsync( p => p.Id == id );
             if (product == null) return false;
-            _fileService.Delete(product.MainImage);
+            _fileService.DeleteAsync(product.MainImage);
             return await _productRepository.DeleteAsync(product);
         }
 
         public async Task<List<ProductResponse>> GetAllProductsAsync()
         {
-            var products = await _productRepository.GetAllAsync(new string[]
+            var products = await _productRepository.GetAllAsync(
+                p=>p.Status == EntitiyStatus.Active
+                ,new string[]
             {
                 nameof(Category.Translations) ,
                 nameof(Category.CreatedBy)
@@ -60,7 +62,7 @@ namespace KASHOP.BLL.Service
 
         public async Task<ProductResponse?> GetProductAsync(Expression<Func<Product, bool>> filter)
         {
-            var product = await _productRepository.GetOne(
+            var product = await _productRepository.GetOneAsync(
                 filter,
                 new string[]
             {
@@ -72,9 +74,18 @@ namespace KASHOP.BLL.Service
             return _mapper.Map<ProductResponse>(product);
         }
 
+        public async Task<bool> ToggleStatusAsync(int id)
+        {
+            var product = await _productRepository.GetOneAsync(p=>p.Id == id);
+            if(product is null) return false;
+            product.Status = product.Status == EntitiyStatus.Active ?
+                EntitiyStatus.Inactive : EntitiyStatus.Active;
+            return await _productRepository.UpdateAsync(product);
+        }
+
         public async Task<bool> UpdateProductAsync(int id, ProductUpdateRequest request)
         {
-            var product = await _productRepository.GetOne(p => p.Id == id,
+            var product = await _productRepository.GetOneAsync(p => p.Id == id,
                 new string[]
                 {
                     nameof(Product.Translations)
@@ -106,7 +117,7 @@ namespace KASHOP.BLL.Service
 
             if(request.MainImage != null)
             {
-                _fileService.Delete(oldImage);
+                _fileService.DeleteAsync(oldImage);
                 product.MainImage = await _fileService.UploadAsync(request.MainImage);
             }
             else

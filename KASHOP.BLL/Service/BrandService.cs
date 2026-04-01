@@ -42,15 +42,16 @@ namespace KASHOP.BLL.Service
 
         public async Task<bool> DeleteBrandAsync(int id)
         {
-            var brand = await _brandRepository.GetOne(b => b.Id == id);
+            var brand = await _brandRepository.GetOneAsync(b => b.Id == id);
             if (brand == null) return false;
-            _fileService.Delete(brand.Logo);
+            _fileService.DeleteAsync(brand.Logo);
             return await _brandRepository.DeleteAsync(brand);
         }
 
         public async Task<List<BrandResponse>> GetAllBrandsAsync()
         {
             var brands = await _brandRepository.GetAllAsync(
+                b=>b.Status == EntitiyStatus.Active,
                 new string[]
                 {
                     nameof(Brand.BrandTranslations),
@@ -61,7 +62,7 @@ namespace KASHOP.BLL.Service
 
         public async Task<BrandResponse?> GetBrandAsync(Expression<Func<Brand, bool>> filter)
         {
-            var brand = await _brandRepository.GetOne(filter, new string[]
+            var brand = await _brandRepository.GetOneAsync(filter, new string[]
             {
                 nameof(Brand.BrandTranslations),
                 nameof(Brand.CreatedBy)
@@ -70,9 +71,18 @@ namespace KASHOP.BLL.Service
             return _mapper.Map<BrandResponse>(brand);
         }
 
+        public async Task<bool> ToggleStatusAsync(int id)
+        {
+            var brand = await _brandRepository.GetOneAsync(b=>b.Id == id);
+            if (brand is null) return false;
+            brand.Status = brand.Status == EntitiyStatus.Active ?
+                EntitiyStatus.Inactive : EntitiyStatus.Active;
+            return await _brandRepository.UpdateAsync(brand);
+        }
+
         public async Task<bool> UpdateBrandAsync(int id, BrandUpdateRequest request)
         {
-            var brand = await _brandRepository.GetOne(b => b.Id == id,
+            var brand = await _brandRepository.GetOneAsync(b => b.Id == id,
                 new string[]
                 {
                     nameof(Brand.BrandTranslations)
@@ -111,7 +121,7 @@ namespace KASHOP.BLL.Service
             if (request.Logo != null)
             {
                 if (!string.IsNullOrEmpty(oldLogo))
-                    _fileService.Delete(oldLogo);
+                    _fileService.DeleteAsync(oldLogo);
 
                 brand.Logo = await _fileService.UploadAsync(request.Logo);
             }
