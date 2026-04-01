@@ -19,6 +19,5 @@ namespace KASHOP.DAL.Models
         public List<ProductTranslation> Translations { get; set; }
         public int BrandId { get; set; }
         public Brand Brand { get; set; }
-        public List<BrandTranslation> BrandTranslations { get; set; }
     }
 }
