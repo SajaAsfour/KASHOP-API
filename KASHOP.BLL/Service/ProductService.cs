@@ -71,5 +71,50 @@ namespace KASHOP.BLL.Service
             
             return _mapper.Map<ProductResponse>(product);
         }
+
+        public async Task<bool> UpdateProductAsync(int id, ProductUpdateRequest request)
+        {
+            var product = await _productRepository.GetOne(p => p.Id == id,
+                new string[]
+                {
+                    nameof(Product.Translations)
+                });
+            if (product == null) return false;
+
+            request.Adapt(product);
+
+            if(request.Translations != null)
+            {
+                foreach(var translationRequest in request.Translations)
+                {
+                    var existing = product.Translations.FirstOrDefault(t => t.Language == translationRequest.Language);
+                    if(existing != null)
+                    {
+                        if(translationRequest.Name != null)
+                            existing.Name = translationRequest.Name;
+                        if(translationRequest.Description != null)
+                            existing.Description = translationRequest.Description;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            var oldImage = product.MainImage;
+
+            if(request.MainImage != null)
+            {
+                _fileService.Delete(oldImage);
+                product.MainImage = await _fileService.UploadAsync(request.MainImage);
+            }
+            else
+            {
+                product.MainImage = oldImage;
+            }
+
+            return await _productRepository.UpdateAsync(product);
+        }
     }
 }

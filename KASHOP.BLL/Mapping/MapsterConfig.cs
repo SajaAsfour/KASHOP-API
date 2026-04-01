@@ -1,4 +1,5 @@
 ﻿using KASHOP.BLL.Service;
+using KASHOP.DAL.DTO.Request;
 using KASHOP.DAL.DTO.Response;
 using KASHOP.DAL.Models;
 using Mapster;
@@ -39,6 +40,10 @@ namespace KASHOP.BLL.Mapping
                 .Map(dest => dest.Logo,
                 source => MapContext.Current.GetService<IUrlService>()
                 .GetImageUrl(source.Logo));
+
+            TypeAdapterConfig<ProductUpdateRequest, Product>.NewConfig()
+                .IgnoreNullValues(true)
+                .Ignore(dest => dest.MainImage);
         }
     }
 }
