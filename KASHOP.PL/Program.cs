@@ -5,6 +5,7 @@ using KASHOP.DAL.Data;
 using KASHOP.DAL.Models;
 using KASHOP.DAL.Repositry;
 using KASHOP.DAL.utils;
+using KASHOP.PL.Extensions;
 using Mapster;
 using MapsterMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -30,109 +31,19 @@ namespace KASHOP.PL
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             builder.Services.AddOpenApi();
 
-            var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+            builder.Services.AddCorsPolicyServices();
 
-            builder.Services.AddCors(options =>
-            {
-                options.AddPolicy(name: MyAllowSpecificOrigins,
-                                  policy =>
-                                  {
-                                      policy.AllowAnyOrigin()
-                                      .AllowAnyMethod()
-                                      .AllowAnyHeader();
-                                  });
-            });
+            builder.Services.AddDataBaseServices(builder.Configuration);
 
-            builder.Services.AddDbContext<ApplicationDbContext>(options =>
-            {
-                options.UseSqlServer(builder.Configuration.GetConnectionString("DefalutConnection"));
-            });
+            builder.Services.AddLocalizationServices();
 
-            builder.Services.AddLocalization(options => options.ResourcesPath = "");
+            builder.Services.AddApplicationServices();
 
-            const string defaultCulture = "en";
+            builder.Services.AddIdentityServices();
 
-            var supportedCultures = new[]
-            {
-                new CultureInfo(defaultCulture),
-                new CultureInfo("ar")
-            };
+            builder.Services.AddJwtAuthenticationServices(builder.Configuration);
 
-            builder.Services.Configure<RequestLocalizationOptions>(options => {
-                options.DefaultRequestCulture = new RequestCulture(defaultCulture);
-                options.SupportedCultures = supportedCultures;
-                options.SupportedUICultures = supportedCultures;
-
-                options.RequestCultureProviders.Clear();
-                //options.RequestCultureProviders.Add(new QueryStringRequestCultureProvider
-                //{
-                //    QueryStringKey = "lang"
-                //});
-
-                options.RequestCultureProviders.Add(new AcceptLanguageHeaderRequestCultureProvider());
-
-            });
-
-            builder.Services.AddScoped<ICategoryRepository , CategoryRepository>();
-
-            builder.Services.AddScoped<ICategoryService , CategoryService>();
-
-            builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
-
-            builder.Services.AddScoped<ISeedData,RoleSeedData>();
-
-            builder.Services.AddTransient<IEmailSender, EmailSender>();
-
-            builder.Services.AddScoped<IFileService, FileService>();
-            builder.Services.AddScoped<IProductRepository, ProductRepository>();
-            builder.Services.AddScoped<IProductService, ProductService>();
-
-            builder.Services.AddScoped<IUrlService, UrlService>();
-
-            builder.Services.AddScoped<IBrandService, BrandService>();
-            builder.Services.AddScoped<IBrandRepository, BrandRepository>();
-
-            builder.Services.AddIdentity<ApplicationUser,IdentityRole>(options =>
-            {
-                options.User.RequireUniqueEmail= true;
-
-                options.Password.RequireDigit= true;
-                options.Password.RequireLowercase= true;
-                options.Password.RequireUppercase= true;
-                options.Password.RequireNonAlphanumeric= true;
-                options.Password.RequiredLength = 10;
-
-                options.Lockout.MaxFailedAccessAttempts = 5;
-                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(15);
-            }).
-                AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
-
-            builder.Services.AddAuthentication(options =>
-            {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-
-                .AddJwtBearer(options =>
-                {
-                    options.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateIssuer = true,
-                        ValidateAudience = true,
-                        ValidateLifetime = true,
-                        ValidateIssuerSigningKey = true,
-                        ValidIssuer = builder.Configuration["Jwt:Issuer"],
-                        ValidAudience = builder.Configuration["Jwt:Audience"],
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:SecretKey"]))
-                    };
-                });
-
-            builder.Services.AddAuthorization();
-
-            builder.Services.AddHttpContextAccessor();
-            MapsterConfig.MapsterConfigRegister();
-            builder.Services.AddSingleton(TypeAdapterConfig.GlobalSettings);
-            builder.Services.AddScoped<IMapper, ServiceMapper>();
+            builder.Services.AddMapsterConfigServices();
 
             var app = builder.Build();
 
@@ -144,7 +55,7 @@ namespace KASHOP.PL
                 app.MapOpenApi();
             }
 
-            app.UseCors(MyAllowSpecificOrigins);
+            app.UseCors(CorsPolicyExtensions.PolicyName);
 
             app.UseHttpsRedirection();
 
