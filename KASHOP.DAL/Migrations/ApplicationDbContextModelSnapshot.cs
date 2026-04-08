@@ -137,7 +137,7 @@ namespace KASHOP.DAL.Migrations
 
                     b.HasIndex("UpdatedById");
 
-                    b.ToTable("Brands");
+                    b.ToTable("Brands", (string)null);
                 });
 
             modelBuilder.Entity("KASHOP.DAL.Models.BrandTranslation", b =>
@@ -163,7 +163,7 @@ namespace KASHOP.DAL.Migrations
 
                     b.HasIndex("BrandId");
 
-                    b.ToTable("BrandTranslations");
+                    b.ToTable("BrandTranslations", (string)null);
                 });
 
             modelBuilder.Entity("KASHOP.DAL.Models.Cart", b =>
@@ -181,7 +181,7 @@ namespace KASHOP.DAL.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Carts");
+                    b.ToTable("Carts", (string)null);
                 });
 
             modelBuilder.Entity("KASHOP.DAL.Models.Category", b =>
@@ -214,7 +214,7 @@ namespace KASHOP.DAL.Migrations
 
                     b.HasIndex("UpdatedById");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("KASHOP.DAL.Models.CategoryTranslation", b =>
@@ -240,7 +240,7 @@ namespace KASHOP.DAL.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("CategoriesTranslation");
+                    b.ToTable("CategoriesTranslation", (string)null);
                 });
 
             modelBuilder.Entity("KASHOP.DAL.Models.Product", b =>
@@ -299,7 +299,7 @@ namespace KASHOP.DAL.Migrations
 
                     b.HasIndex("UpdatedById");
 
-                    b.ToTable("Products");
+                    b.ToTable("Products", (string)null);
                 });
 
             modelBuilder.Entity("KASHOP.DAL.Models.ProductTranslation", b =>
@@ -329,7 +329,7 @@ namespace KASHOP.DAL.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductTranslations");
+                    b.ToTable("ProductTranslations", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
