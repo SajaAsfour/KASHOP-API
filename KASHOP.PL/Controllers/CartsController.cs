@@ -27,7 +27,10 @@ namespace KASHOP.PL.Controllers
         public async Task<IActionResult> AddToCart(AddToCartRequest request)
         {
             var UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            await _cartSerivce.AddToCartAsync(request, UserId);
+            var result = await _cartSerivce.AddToCartAsync(request, UserId);
+
+            if (!result) return BadRequest();
+
             return Ok(new
             {
                 message = _localizer["Success"].Value

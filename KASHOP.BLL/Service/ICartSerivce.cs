@@ -9,6 +9,6 @@ namespace KASHOP.BLL.Service
 {
     public interface ICartSerivce
     {
-        Task AddToCartAsync (AddToCartRequest request, string UserId);
+        Task<bool> AddToCartAsync (AddToCartRequest request, string UserId);
     }
 }
