@@ -1,4 +1,5 @@
 ﻿using KASHOP.DAL.DTO.Request;
+using KASHOP.DAL.DTO.Response;
 using KASHOP.DAL.Models;
 using KASHOP.DAL.Repositry;
 using Mapster;
@@ -47,6 +48,26 @@ namespace KASHOP.BLL.Service
             }
 
             return true;
+        }
+
+        public Task<bool> ClearCartAsync(string userId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<CartResponse>> GetCartAsync(string userId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> RemoveItemAsync(int productId, string userId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> UpdateQuantityAsync(int productId, int count, string userId)
+        {
+            throw new NotImplementedException();
         }
     }
 }
