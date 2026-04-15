@@ -1,5 +1,7 @@
 ﻿using KASHOP.BLL.Service;
+using KASHOP.DAL;
 using KASHOP.DAL.DTO.Request;
+using KASHOP.DAL.Request;
 using KASHOP.PL.Resourses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -74,6 +76,23 @@ namespace KASHOP.PL.Controllers
             {
                 message = _localizer["Success"].Value
             });
+        }
+
+        [HttpPatch("{productId}")]
+        public async Task<IActionResult> UpdateQuantity([FromRoute]int productId,
+            [FromBody] UpdateCartRequest request)
+        {
+            var UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var updated = await _cartSerivce.UpdateQuantityAsync(productId, request.Count , UserId);
+
+            if(!updated) return BadRequest();
+
+            return Ok(new
+            {
+                message = _localizer["Success"].Value
+            });
+
         }
     }
 }

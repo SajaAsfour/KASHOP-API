@@ -90,9 +90,20 @@ namespace KASHOP.BLL.Service
             return await _cartRepository.DeleteAsync( item );
         }
 
-        public Task<bool> UpdateQuantityAsync(int productId, int count, string userId)
+        public async Task<bool> UpdateQuantityAsync(int productId, int count, string userId)
         {
-            throw new NotImplementedException();
+            var item = await _cartRepository.GetOneAsync(
+                c => c.ProductId == productId && c.UserId == userId
+                );
+
+            if (item is null) return false;
+
+            var product = await _productRepository.GetOneAsync(p => p.Id == productId);
+
+            if (count > product.Quantity) return false;
+
+            item.Count = count;
+            return await _cartRepository.UpdateAsync( item );
         }
     }
 }
