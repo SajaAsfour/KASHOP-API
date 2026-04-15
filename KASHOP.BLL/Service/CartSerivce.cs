@@ -55,9 +55,15 @@ namespace KASHOP.BLL.Service
             return true;
         }
 
-        public Task<bool> ClearCartAsync(string userId)
+        public async Task<bool> ClearCartAsync(string userId)
         {
-            throw new NotImplementedException();
+            var items = await _cartRepository.GetAllAsync(
+                filter: x => x.UserId == userId
+                );
+
+            if(!items.Any()) return false;
+
+            return await _cartRepository.DeleteRangeAsync(items);
         }
 
         public async Task<List<CartResponse>> GetCartAsync(string userId)

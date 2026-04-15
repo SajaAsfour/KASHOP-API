@@ -62,5 +62,18 @@ namespace KASHOP.PL.Controllers
                 message = _localizer["Success"].Value
             });
         }
+
+        [HttpDelete("")]
+        public async Task<IActionResult> ClearCart()
+        {
+            var UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var removed = await _cartSerivce.ClearCartAsync(UserId);
+
+            if (!removed) return BadRequest();
+            return Ok(new
+            {
+                message = _localizer["Success"].Value
+            });
+        }
     }
 }

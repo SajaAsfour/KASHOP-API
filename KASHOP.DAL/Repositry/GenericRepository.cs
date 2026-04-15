@@ -27,6 +27,12 @@ namespace KASHOP.DAL.Repositry
             return affected > 0;
         }
 
+        public async Task<bool> DeleteRangeAsync(List<T> entites)
+        {
+            _context.RemoveRange(entites);
+            return await _context.SaveChangesAsync() > 0;
+        }
+
         public async Task<List<T>> GetAllAsync(Expression<Func<T,bool>> filter,string[]? includes = null)
         {
             IQueryable <T> query = _context.Set<T>();
