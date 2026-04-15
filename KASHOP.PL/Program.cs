@@ -37,7 +37,7 @@ namespace KASHOP.PL
 
             builder.Services.AddLocalizationServices();
 
-            builder.Services.AddApplicationServices();
+            builder.Services.AddApplicationServices(builder.Configuration);
 
             builder.Services.AddIdentityServices();
 
