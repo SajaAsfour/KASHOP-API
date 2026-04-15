@@ -73,9 +73,15 @@ namespace KASHOP.BLL.Service
             return _mapper.Map<List<CartResponse>>(items);
         }
 
-        public Task<bool> RemoveItemAsync(int productId, string userId)
+        public async Task<bool> RemoveItemAsync(int productId, string userId)
         {
-            throw new NotImplementedException();
+            var item = await _cartRepository.GetOneAsync(
+                c => c.ProductId == productId && c.UserId == userId
+                );
+
+            if(item is null) return false;
+
+            return await _cartRepository.DeleteAsync( item );
         }
 
         public Task<bool> UpdateQuantityAsync(int productId, int count, string userId)

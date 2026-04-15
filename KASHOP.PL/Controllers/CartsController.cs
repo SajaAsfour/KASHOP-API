@@ -49,5 +49,18 @@ namespace KASHOP.PL.Controllers
                 data = items
             });
         }
+
+        [HttpDelete("{productId}")]
+        public async Task<IActionResult> RemoveItem([FromRoute] int productId)
+        {
+            var UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var removed = await _cartSerivce.RemoveItemAsync(productId , UserId);
+
+            if(!removed) return BadRequest();
+            return Ok(new
+            {
+                message = _localizer["Success"].Value
+            });
+        }
     }
 }
