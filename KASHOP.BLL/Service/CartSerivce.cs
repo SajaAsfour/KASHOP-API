@@ -3,6 +3,7 @@ using KASHOP.DAL.DTO.Response;
 using KASHOP.DAL.Models;
 using KASHOP.DAL.Repositry;
 using Mapster;
+using MapsterMapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,11 +16,15 @@ namespace KASHOP.BLL.Service
     {
         private readonly ICartRepository _cartRepository;
         private readonly IProductRepository _productRepository;
+        private readonly IMapper _mapper;
 
-        public CartSerivce(ICartRepository cartRepository , IProductRepository productRepository)
+        public CartSerivce(ICartRepository cartRepository 
+            , IProductRepository productRepository
+            , IMapper mapper)
         {
             _cartRepository = cartRepository;
             _productRepository = productRepository;
+            _mapper = mapper;
         }
         public async Task <bool> AddToCartAsync (AddToCartRequest request, string UserId)
         {
@@ -42,7 +47,7 @@ namespace KASHOP.BLL.Service
             }
             else
             {
-                var cartItems = request.Adapt<Cart>();
+                var cartItems = _mapper.Map<Cart>(request);
                 cartItems.UserId = UserId;
                 await _cartRepository.CreateAsync( cartItems );
             }
@@ -55,9 +60,17 @@ namespace KASHOP.BLL.Service
             throw new NotImplementedException();
         }
 
-        public Task<List<CartResponse>> GetCartAsync(string userId)
+        public async Task<List<CartResponse>> GetCartAsync(string userId)
         {
-            throw new NotImplementedException();
+            var items = await _cartRepository.GetAllAsync(
+                filter : x => x.UserId == userId,
+                includes : new string[]
+                {
+                    nameof(Cart.Product),
+                    $"{nameof(Cart.Product)}.{nameof(Product.Translations)}"
+                }
+                );
+            return _mapper.Map<List<CartResponse>>(items);
         }
 
         public Task<bool> RemoveItemAsync(int productId, string userId)

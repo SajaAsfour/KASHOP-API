@@ -11,6 +11,8 @@ namespace KASHOP.PL.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
+
     public class CartsController : ControllerBase
     {
         private readonly ICartSerivce _cartSerivce;
@@ -23,7 +25,6 @@ namespace KASHOP.PL.Controllers
         }
 
         [HttpPost("")]
-        [Authorize]
         public async Task<IActionResult> AddToCart(AddToCartRequest request)
         {
             var UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -34,6 +35,18 @@ namespace KASHOP.PL.Controllers
             return Ok(new
             {
                 message = _localizer["Success"].Value
+            });
+        }
+
+        [HttpGet("")]
+        public async Task<IActionResult> GetCart()
+        {
+            var UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var items = await _cartSerivce.GetCartAsync(UserId);
+            return Ok(new
+            {
+                message = _localizer["Success"].Value,
+                data = items
             });
         }
     }

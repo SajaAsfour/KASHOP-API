@@ -54,6 +54,14 @@ namespace KASHOP.BLL.Mapping
                 .Ignore(dest => dest.Logo)
                 .Ignore(dest => dest.BrandTranslations);
 
+            TypeAdapterConfig<Cart, CartResponse>.NewConfig()
+                .Map(dest => dest.ProductName, source => source.Product.Translations.Where(
+                    t => t.Language == CultureInfo.CurrentCulture.Name).Select(
+                    t => t.Name).FirstOrDefault())
+                .Map(dest => dest.Price , source => source.Product.Price)
+                .Map(dest => dest.Disscount , source => source.Product.Discount)
+                .Map(dest => dest.ProductImage , source => MapContext.Current.GetService<IUrlService>()
+                .GetImageUrl(source.Product.MainImage));
 
         }
     }
