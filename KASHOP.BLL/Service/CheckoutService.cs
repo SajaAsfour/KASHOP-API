@@ -19,15 +19,35 @@ namespace KASHOP.BLL.Service
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IOrderRepository _orderRepository;
+        private readonly ICartSerivce _cartSerivce;
 
         public CheckoutService(ICartRepository cartRepository, UserManager<ApplicationUser> userManager
-            , IHttpContextAccessor httpContextAccessor , IOrderRepository orderRepository)
+            , IHttpContextAccessor httpContextAccessor , IOrderRepository orderRepository
+            ,ICartSerivce cartSerivce)
         {
             _cartRepository = cartRepository;
             _userManager = userManager;
             _httpContextAccessor = httpContextAccessor;
             _orderRepository = orderRepository;
+            _cartSerivce = cartSerivce;
         }
+
+        public async Task<CheckoutResponse> HandleSuccess(string sessionId)
+        {
+            var order = await _orderRepository.GetOneAsync(o => o.StripeSessionId  == sessionId);
+
+            order.OrderStatus = OrderStatusEnum.Paid;
+            await _orderRepository.UpdateAsync(order);
+
+            await _cartSerivce.ClearCartAsync(order.UserId);
+
+            return new CheckoutResponse()
+            {
+                Success = true,
+                OrderId = order.Id
+            };
+        }
+
         public async Task<CheckoutResponse> ProcessCheckout(string userId, CheckoutRequest request)
         {
             var cartItems = await _cartRepository.GetAllAsync(
@@ -116,7 +136,9 @@ namespace KASHOP.BLL.Service
                     PaymentMethodTypes = new List<string> { "card" },
                     Mode = "payment",
 
-                    SuccessUrl = $"{_httpContextAccessor.HttpContext.Request.Scheme}://{_httpContextAccessor.HttpContext.Request.Host}/checkout/success",
+                    SuccessUrl = $"{_httpContextAccessor.HttpContext.Request.Scheme}:" +
+                    $"//{_httpContextAccessor.HttpContext.Request.Host}/api/checkouts/success" +
+                    $"?sessionId={{CHECKOUT_SESSION_ID}}",
                     CancelUrl = $"{_httpContextAccessor.HttpContext.Request.Scheme}://{_httpContextAccessor.HttpContext.Request.Host}/checkout/cancel",
 
                     LineItems = new List<SessionLineItemOptions>()
@@ -142,6 +164,9 @@ namespace KASHOP.BLL.Service
                 }
                 var service = new SessionService();
                 var session = service.Create(options);
+
+                order.StripeSessionId = session.Id;
+                await _orderRepository.UpdateAsync(order);
 
                 return new CheckoutResponse
                 {
