@@ -20,26 +20,35 @@ namespace KASHOP.BLL.Service
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IOrderRepository _orderRepository;
         private readonly ICartSerivce _cartSerivce;
+        private readonly IProductRepository _productRepository;
 
         public CheckoutService(ICartRepository cartRepository, UserManager<ApplicationUser> userManager
             , IHttpContextAccessor httpContextAccessor , IOrderRepository orderRepository
-            ,ICartSerivce cartSerivce)
+            ,ICartSerivce cartSerivce ,IProductRepository productRepository)
         {
             _cartRepository = cartRepository;
             _userManager = userManager;
             _httpContextAccessor = httpContextAccessor;
             _orderRepository = orderRepository;
             _cartSerivce = cartSerivce;
+            _productRepository = productRepository;
         }
 
         public async Task<CheckoutResponse> HandleSuccess(string sessionId)
         {
-            var order = await _orderRepository.GetOneAsync(o => o.StripeSessionId  == sessionId);
+            var order = await _orderRepository.GetOneAsync(
+                o => o.StripeSessionId  == sessionId
+                ,includes: new[]
+                {
+                    nameof(Order.OrderItems)
+                } );
 
             order.OrderStatus = OrderStatusEnum.Paid;
             await _orderRepository.UpdateAsync(order);
 
             await _cartSerivce.ClearCartAsync(order.UserId);
+
+            var lowStockProducts = await _productRepository.DecreaseQuantityAsync(order.OrderItems);
 
             return new CheckoutResponse()
             {
