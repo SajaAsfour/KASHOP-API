@@ -21,10 +21,12 @@ namespace KASHOP.BLL.Service
         private readonly IOrderRepository _orderRepository;
         private readonly ICartSerivce _cartSerivce;
         private readonly IProductRepository _productRepository;
+        private readonly IEmailSender _emailSender;
 
         public CheckoutService(ICartRepository cartRepository, UserManager<ApplicationUser> userManager
             , IHttpContextAccessor httpContextAccessor , IOrderRepository orderRepository
-            ,ICartSerivce cartSerivce ,IProductRepository productRepository)
+            ,ICartSerivce cartSerivce ,IProductRepository productRepository
+            ,IEmailSender emailSender)
         {
             _cartRepository = cartRepository;
             _userManager = userManager;
@@ -32,6 +34,7 @@ namespace KASHOP.BLL.Service
             _orderRepository = orderRepository;
             _cartSerivce = cartSerivce;
             _productRepository = productRepository;
+            _emailSender = emailSender;
         }
 
         public async Task<CheckoutResponse> HandleSuccess(string sessionId)
@@ -40,7 +43,9 @@ namespace KASHOP.BLL.Service
                 o => o.StripeSessionId  == sessionId
                 ,includes: new[]
                 {
-                    nameof(Order.OrderItems)
+                    nameof(Order.OrderItems),
+                    $"{nameof(Order.OrderItems)}.{nameof(OrderItem.Product)}",
+                    $"{nameof(Order.OrderItems)}.{nameof(OrderItem.Product)}.{nameof(Product.Translations)}"
                 } );
 
             order.OrderStatus = OrderStatusEnum.Paid;
@@ -48,7 +53,22 @@ namespace KASHOP.BLL.Service
 
             await _cartSerivce.ClearCartAsync(order.UserId);
 
+            var user = await _userManager.FindByIdAsync(order.UserId);
+
+            await _emailSender.SendEmailAsync(user.Email, "order confirmed",
+                "<h2>your order has beed placed successfully</h2>");
+
             var lowStockProducts = await _productRepository.DecreaseQuantityAsync(order.OrderItems);
+
+            foreach(var item in lowStockProducts)
+            {
+                if(lowStockProducts != null)
+                {
+                    await _emailSender.SendEmailAsync("sajanazih2004@gmail.com", "low stock alert"
+                        , $"<h2>product {item.Translations.FirstOrDefault( t => t.Language == "en").Name
+                        } current quantity : {item.Quantity}</h2>");
+                }
+            }
 
             return new CheckoutResponse()
             {
