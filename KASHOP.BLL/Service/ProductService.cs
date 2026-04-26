@@ -91,7 +91,8 @@ namespace KASHOP.BLL.Service
                 new string[]
             {
                 nameof(Product.Translations) ,
-                nameof(Product.CreatedBy)
+                nameof(Product.CreatedBy),
+                nameof(Product.SubImages)
             });
             if(product == null) return null;
             
