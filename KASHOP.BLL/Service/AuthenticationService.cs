@@ -4,6 +4,7 @@ using KASHOP.DAL.Models;
 using Mapster;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -95,6 +96,10 @@ namespace KASHOP.BLL.Service
                     Message = "Invalid Password"
                 };
             }
+
+            var refreshToken = await GenerateRefreshToken(user);
+            SetRefreshTokenGenerate(refreshToken);
+
             return new LoginResponse()
             {
                 Success = true,
@@ -115,7 +120,7 @@ namespace KASHOP.BLL.Service
             return true;
         }
 
-        public async Task<string> GenerateAccessToken(ApplicationUser user)
+        private async Task<string> GenerateAccessToken(ApplicationUser user)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:SecretKey"]!));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
@@ -227,6 +232,57 @@ namespace KASHOP.BLL.Service
                 Message = "Password Reset Successfuly"
             };
 
+        }
+
+        private async Task<string> GenerateRefreshToken(ApplicationUser user)
+        {
+            var refreshtoken = Guid.NewGuid().ToString();
+            user.RefreshToken = refreshtoken;
+            user.RefreshTokenExpiry = DateTime.UtcNow.AddDays(15);
+            await _userManager.UpdateAsync(user);
+            return refreshtoken;
+        }
+
+        private void SetRefreshTokenGenerate(string refreshToken)
+        {
+            _httpContextAccessor.HttpContext.Response.Cookies
+                .Append("refreshToken", refreshToken, new CookieOptions
+                {
+                    HttpOnly = true,
+                    Secure = false, //true for production
+                    SameSite = SameSiteMode.None, // Strict for production
+                    Expires = DateTime.UtcNow.AddDays(15)
+                });
+        }
+
+        public async Task<LoginResponse> RefreshTokenAsync()
+        {
+            var refreshToken = _httpContextAccessor.HttpContext.Request.Cookies["refreshToken"];
+            if (refreshToken is null)
+                return new LoginResponse
+                {
+                    Success = false,
+                    Message = "no refresh token"
+                };
+
+            var user = await _userManager.Users.FirstOrDefaultAsync(u => u.RefreshToken == refreshToken);
+
+            if(user.RefreshTokenExpiry < DateTime.UtcNow)
+                return new LoginResponse
+                {
+                    Success = false,
+                    Message = "refresh token expires"
+                };
+
+            var newRefreshToken = await GenerateRefreshToken(user);
+            SetRefreshTokenGenerate(newRefreshToken);
+
+            return new LoginResponse
+            {
+                Success = true,
+                Message = "success",
+                AccrssToken = await GenerateAccessToken(user)
+            };
         }
     }
 }
