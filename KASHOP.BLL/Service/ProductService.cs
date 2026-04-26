@@ -55,9 +55,19 @@ namespace KASHOP.BLL.Service
 
         public async Task<bool> DeleteProductAsync(int id)
         {
-            var product = await _productRepository.GetOneAsync( p => p.Id == id );
+            var product = await _productRepository.GetOneAsync( p => p.Id == id ,
+                new string[]
+                {
+                    nameof(Product.SubImages)
+                });
             if (product == null) return false;
             _fileService.DeleteAsync(product.MainImage);
+
+            foreach(var image in product.SubImages)
+            {
+                _fileService.DeleteAsync(image.ImagePath);
+            }
+
             return await _productRepository.DeleteAsync(product);
         }
 
