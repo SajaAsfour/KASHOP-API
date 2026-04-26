@@ -31,11 +31,24 @@ namespace KASHOP.BLL.Service
         public async Task CreateProductAsync(ProductRequest request)
         {
             var product = _mapper.Map<Product>(request);
+            product.SubImages = new List<ProductImage>();
+
             if(request.MainImage != null)
             {
                 var imagePath = await _fileService.UploadAsync(request.MainImage);
                 product.MainImage = imagePath;
             }
+
+            if(request.SubImages != null)
+            {
+                foreach(var image in request.SubImages)
+                {
+                    var imagePath = await _fileService.UploadAsync(image);
+                    product.SubImages.Add(new ProductImage { ImagePath = imagePath});
+
+                }
+            }
+
             await _productRepository.CreateAsync(product);
            
         }

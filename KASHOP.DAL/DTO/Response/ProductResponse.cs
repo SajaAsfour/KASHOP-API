@@ -15,5 +15,6 @@ namespace KASHOP.DAL.DTO.Response
         public decimal Discount { get; set; }
         public int Quantity { get; set; }
         public string MainImage { get; set; }
+        public List<string> SubImages { get; set; }
     }
 }
