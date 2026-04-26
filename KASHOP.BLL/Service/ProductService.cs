@@ -113,7 +113,8 @@ namespace KASHOP.BLL.Service
             var product = await _productRepository.GetOneAsync(p => p.Id == id,
                 new string[]
                 {
-                    nameof(Product.Translations)
+                    nameof(Product.Translations),
+                    nameof(Product.SubImages)
                 });
             if (product == null) return false;
 
@@ -148,6 +149,27 @@ namespace KASHOP.BLL.Service
             else
             {
                 product.MainImage = oldImage;
+            }
+
+            if (request.SubImages != null && request.SubImages.Any())
+            {
+                foreach (var oldSubImage in product.SubImages)
+                {
+                    _fileService.DeleteAsync(oldSubImage.ImagePath);
+                }
+
+                product.SubImages.Clear();
+
+                foreach (var image in request.SubImages)
+                {
+                    var imagePath = await _fileService.UploadAsync(image);
+
+                    product.SubImages.Add(new ProductImage
+                    {
+                        ImagePath = imagePath,
+                        ProductId = product.Id
+                    });
+                }
             }
 
             return await _productRepository.UpdateAsync(product);
