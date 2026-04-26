@@ -67,8 +67,9 @@ namespace KASHOP.BLL.Service
                 p=>p.Status == EntitiyStatus.Active
                 ,new string[]
             {
-                nameof(Category.Translations) ,
-                nameof(Category.CreatedBy)
+                nameof(Product.Translations) ,
+                nameof(Product.CreatedBy),
+                nameof(Product.SubImages)
             });
             return _mapper.Map<List<ProductResponse>>(products);
         }
@@ -79,8 +80,8 @@ namespace KASHOP.BLL.Service
                 filter,
                 new string[]
             {
-                nameof(Category.Translations) ,
-                nameof(Category.CreatedBy)
+                nameof(Product.Translations) ,
+                nameof(Product.CreatedBy)
             });
             if(product == null) return null;
             

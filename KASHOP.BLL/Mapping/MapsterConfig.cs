@@ -30,7 +30,11 @@ namespace KASHOP.BLL.Mapping
                     t => t.Name).FirstOrDefault())
                 .Map(dest =>dest.MainImage , 
                 source => MapContext.Current.GetService<IUrlService>()
-                .GetImageUrl(source.MainImage));
+                .GetImageUrl(source.MainImage))
+                .Map(dest => dest.SubImages, source => source.SubImages
+                       .Select(img => MapContext.Current.GetService<IUrlService>()
+                       .GetImageUrl(img.ImagePath))
+                       .ToList());
 
             TypeAdapterConfig<Brand, BrandResponse>.NewConfig()
                 .Map(dest => dest.UserCreated, source => source.CreatedBy.UserName)
