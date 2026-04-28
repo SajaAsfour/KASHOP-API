@@ -151,7 +151,7 @@ namespace KASHOP.BLL.Service
                 product.MainImage = oldImage;
             }
 
-            if (request.SubImages != null && request.SubImages.Any())
+            if (request.SubImages != null)
             {
                 foreach (var oldSubImage in product.SubImages)
                 {
@@ -167,7 +167,19 @@ namespace KASHOP.BLL.Service
                     product.SubImages.Add(new ProductImage
                     {
                         ImagePath = imagePath,
-                        ProductId = product.Id
+                    });
+                }
+            }
+
+            if(request.NewImages != null)
+            {
+                foreach (var image in request.NewImages)
+                {
+                    var imagePath = await _fileService.UploadAsync(image);
+
+                    product.SubImages.Add(new ProductImage
+                    {
+                        ImagePath = imagePath,
                     });
                 }
             }
