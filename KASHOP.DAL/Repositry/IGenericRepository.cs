@@ -12,5 +12,6 @@ namespace KASHOP.DAL.Repositry
         Task<bool> UpdateAsync(T entity);
         Task<bool> DeleteRangeAsync(List<T>  entites);
         Task<bool> UpdateRangeAsync(List<T> entites);
+        IQueryable<T> GetQueryable(Expression<Func<T, bool>> filter, string[]? includes = null);
     }
 }

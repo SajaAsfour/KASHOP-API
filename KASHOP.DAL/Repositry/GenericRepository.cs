@@ -64,6 +64,23 @@ namespace KASHOP.DAL.Repositry
             return await query.FirstOrDefaultAsync(filter);
         }
 
+        public IQueryable<T> GetQueryable(Expression<Func<T, bool>> filter, string[]? includes = null)
+        {
+            IQueryable<T> query = _context.Set<T>();
+
+            if (filter != null)
+                query = query.Where(filter);
+
+            if (includes != null)
+            {
+                foreach (var include in includes)
+                {
+                    query = query.Include(include);
+                }
+            }
+            return query;
+        }
+
         public async Task<bool> UpdateAsync(T entity)
         {
             _context.Update(entity);

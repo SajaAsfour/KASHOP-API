@@ -1,4 +1,5 @@
-﻿using KASHOP.DAL.DTO.Request;
+﻿using KASHOP.BLL.Extensions;
+using KASHOP.DAL.DTO.Request;
 using KASHOP.DAL.DTO.Response;
 using KASHOP.DAL.Models;
 using KASHOP.DAL.Repositry;
@@ -71,9 +72,9 @@ namespace KASHOP.BLL.Service
             return await _productRepository.DeleteAsync(product);
         }
 
-        public async Task<List<ProductResponse>> GetAllProductsAsync()
+        public async Task<PaginationResponse<ProductResponse>> GetAllProductsAsync(PaginationRequest request)
         {
-            var products = await _productRepository.GetAllAsync(
+            var query = _productRepository.GetQueryable(
                 p=>p.Status == EntitiyStatus.Active
                 ,new string[]
             {
@@ -81,7 +82,15 @@ namespace KASHOP.BLL.Service
                 nameof(Product.CreatedBy),
                 nameof(Product.SubImages)
             });
-            return _mapper.Map<List<ProductResponse>>(products);
+
+            var paginated = await query.ToPaginationAsync(request.Page, request.Limit);
+            return new PaginationResponse<ProductResponse> 
+            {
+                Data = _mapper.Map<List<ProductResponse>>(paginated.Data),
+                TotalCount = paginated.TotalCount,
+                Page = paginated.Page,
+                Limit = paginated.Limit
+            };
         }
 
         public async Task<ProductResponse?> GetProductAsync(Expression<Func<Product, bool>> filter)
