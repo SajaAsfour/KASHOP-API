@@ -77,7 +77,16 @@ namespace KASHOP.BLL.Service
                 };
             }
 
-            if(!await _userManager.IsEmailConfirmedAsync(user))
+            if (user.IsDeleted)
+            {
+                return new LoginResponse()
+                {
+                    Success = false,
+                    Message = "account is deleted"
+                };
+            }
+
+            if (!await _userManager.IsEmailConfirmedAsync(user))
             {
 
                 return new LoginResponse()

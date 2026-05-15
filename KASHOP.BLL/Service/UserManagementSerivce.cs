@@ -41,21 +41,32 @@ namespace KASHOP.BLL.Service
             return result.Succeeded;
         }
 
-        public Task<bool> DeleteUserAsync(string userId)
+        public async Task<bool> ToggleSoftDeleteUserAsync(string userId)
         {
-            throw new NotImplementedException();
+            var user = await _userManager.FindByIdAsync(userId);
+
+            if(user == null) return false;
+
+            user.IsDeleted = !user.IsDeleted;
+            user.DeletedAt = DateTime.UtcNow;
+
+            var result = await _userManager.UpdateAsync(user);
+
+            return result.Succeeded;
         }
 
         public async Task<List<UserListResponse>> GetAllUsersAsync()
         {
-            var users = await _userManager.Users.ToListAsync();
+            var users = await _userManager.Users.Where(u => !u.IsDeleted).ToListAsync();
 
             return _mapper.Map<List<UserListResponse>>(users);
         }
 
         public async Task<UserDetailsResponse> GetUserAsync(string userId)
         {
-            var user = await _userManager.FindByIdAsync(userId);
+            var user = await _userManager.Users.FirstOrDefaultAsync(u => u.Id == userId && !u.IsDeleted);
+
+            if (user is null) return null;
 
             var roles = await _userManager.GetRolesAsync(user);
 

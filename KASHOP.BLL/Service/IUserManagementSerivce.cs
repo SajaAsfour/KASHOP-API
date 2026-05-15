@@ -13,6 +13,6 @@ namespace KASHOP.BLL.Service
         Task<UserDetailsResponse> GetUserAsync(string userId);
         Task<bool> ChangeRoleAsync(string userId, string role);
         Task<bool> ToggleBlockUserAsync(string userId);
-        Task<bool> DeleteUserAsync(string userId);
+        Task<bool> ToggleSoftDeleteUserAsync(string userId);
     }
 }

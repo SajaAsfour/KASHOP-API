@@ -73,5 +73,19 @@ namespace KASHOP.PL.Controllers
                 message = _localizer["Success"].Value,
             });
         }
+
+        [HttpPatch("users/{userId}/soft-delete")]
+        //[Authorize(Roles = "Admin")]
+        public async Task<IActionResult> SoftDelete(string userId)
+        {
+            var result = await _userManagementSerivce.ToggleSoftDeleteUserAsync(userId);
+
+            if (!result) return BadRequest();
+
+            return Ok(new
+            {
+                message = _localizer["Success"].Value,
+            });
+        }
     }
 }

@@ -17,5 +17,7 @@ namespace KASHOP.DAL.Models
         public DateTime? PasswordResetCodeExpiry { get; set; }
         public string? RefreshToken { get; set; }
         public DateTime? RefreshTokenExpiry { get; set; }
+        public bool IsDeleted { get; set; } = false;
+        public DateTime? DeletedAt { get; set; }
     }
 }
