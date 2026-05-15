@@ -139,6 +139,7 @@ namespace KASHOP.BLL.Service
                 PhoneNumber = phoneNumber,
                 PaymentMethod = request.PaymentMethod,
                 AmountPaid = cartItems.Sum(c => c.Product.Price * c.Count),
+                OrderStatus = OrderStatusEnum.Pending,
                 OrderItems = cartItems.Select(c => new OrderItem
                 {
                     ProductId = c.ProductId,
