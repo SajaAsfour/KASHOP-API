@@ -1,4 +1,5 @@
-﻿using KASHOP.DAL.DTO.Response;
+﻿using KASHOP.DAL.DTO.Request;
+using KASHOP.DAL.DTO.Response;
 using KASHOP.DAL.Models;
 using KASHOP.DAL.Repositry;
 using MapsterMapper;
@@ -31,6 +32,21 @@ namespace KASHOP.BLL.Service
 
             order.OrderStatus = OrderStatusEnum.Cancelled;
 
+            return await _orderRepository.UpdateAsync(order);
+        }
+
+        public async Task<bool> ChangeOrderStatusAsync(int orderId, ChangeOrderStatusRequest request)
+        {
+            var order = await _orderRepository.GetOneAsync(o => o.Id == orderId);
+
+            if(order.OrderStatus == OrderStatusEnum.Cancelled || order.OrderStatus == OrderStatusEnum.Delivered)
+                return false;
+
+            if((int)request.Status != (int)order.OrderStatus + 1) 
+                return false;
+
+            order.OrderStatus = request.Status;
+            
             return await _orderRepository.UpdateAsync(order);
         }
 

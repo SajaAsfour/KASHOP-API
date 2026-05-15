@@ -1,4 +1,5 @@
 ﻿using KASHOP.BLL.Service;
+using KASHOP.DAL.DTO.Request;
 using KASHOP.DAL.Models;
 using KASHOP.PL.Resourses;
 using Microsoft.AspNetCore.Authorization;
@@ -68,6 +69,19 @@ namespace KASHOP.PL.Controllers
             {
                 message = _localizer["Success"].Value,
                 data = orders
+            });
+        }
+
+        [HttpPatch("admin/{id}/status")]
+        //[Authorize(Roles ="Admin")]
+        public async Task<IActionResult> ChangeStatus(int id, [FromBody] ChangeOrderStatusRequest request)
+        {
+            var result = await _orderService.ChangeOrderStatusAsync(id,request);
+            if (!result)
+                return BadRequest();
+            return Ok(new
+            {
+                message = _localizer["Success"].Value,
             });
         }
     }
