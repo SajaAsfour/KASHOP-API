@@ -150,6 +150,10 @@ namespace KASHOP.BLL.Service
                 new Claim(ClaimTypes.Email, user.Email),
             };
 
+            var role = await _userManager.GetRolesAsync(user);
+
+            userClaims.Add(new Claim(ClaimTypes.Role, role.FirstOrDefault()));
+
             var token = new JwtSecurityToken(
                  issuer: _configuration["Jwt:Issuer"],
                  audience: _configuration["Jwt:Audience"],

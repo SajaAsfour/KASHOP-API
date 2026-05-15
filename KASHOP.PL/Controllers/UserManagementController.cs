@@ -11,6 +11,7 @@ namespace KASHOP.PL.Controllers
     [Route("api/admin")]
     [ApiController]
     [Authorize]
+    [Authorize(Roles = "Admin")]
     public class UserManagementController : ControllerBase
     {
         private readonly IUserManagementSerivce _userManagementSerivce;
@@ -23,7 +24,6 @@ namespace KASHOP.PL.Controllers
         }
 
         [HttpGet("users")]
-        //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetAllUsers()
         {
             var users = await _userManagementSerivce.GetAllUsersAsync();
@@ -35,7 +35,6 @@ namespace KASHOP.PL.Controllers
         }
 
         [HttpGet("users/{userId}")]
-        //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetUser(string userId)
         {
             var user = await _userManagementSerivce.GetUserAsync(userId);
@@ -47,7 +46,6 @@ namespace KASHOP.PL.Controllers
         }
 
         [HttpPatch("users/{userId}/role")]
-        //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> ChangeRole(string userId , [FromBody] ChangeRoleRequest request)
         {
             var result = await _userManagementSerivce.ChangeRoleAsync(userId ,request.newRole);
@@ -61,7 +59,6 @@ namespace KASHOP.PL.Controllers
         }
 
         [HttpPatch("users/{userId}/toggle-block")]
-        //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> ToggleBlock(string userId)
         {
             var result = await _userManagementSerivce.ToggleBlockUserAsync(userId);
@@ -75,7 +72,6 @@ namespace KASHOP.PL.Controllers
         }
 
         [HttpPatch("users/{userId}/soft-delete")]
-        //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> SoftDelete(string userId)
         {
             var result = await _userManagementSerivce.ToggleSoftDeleteUserAsync(userId);

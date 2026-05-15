@@ -61,7 +61,7 @@ namespace KASHOP.PL.Controllers
         }
 
         [HttpGet("admin")]
-        //[Authorize(Roles ="Admin")]
+        [Authorize(Roles ="Admin")]
         public async Task<IActionResult> GetAllOrders([FromQuery] OrderStatusEnum status = OrderStatusEnum.Pending)
         {
             var orders = await _orderService.GetAllOrdersAsync(status);
@@ -73,7 +73,7 @@ namespace KASHOP.PL.Controllers
         }
 
         [HttpPatch("admin/{id}/status")]
-        //[Authorize(Roles ="Admin")]
+        [Authorize(Roles ="Admin")]
         public async Task<IActionResult> ChangeStatus(int id, [FromBody] ChangeOrderStatusRequest request)
         {
             var result = await _orderService.ChangeOrderStatusAsync(id,request);
