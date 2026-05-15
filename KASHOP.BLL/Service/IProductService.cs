@@ -18,5 +18,6 @@ namespace KASHOP.BLL.Service
         Task<bool> DeleteProductAsync(int id);
         Task<bool> UpdateProductAsync(int id, ProductUpdateRequest request);
         Task<bool> ToggleStatusAsync(int id);
+        Task<bool> DeleteSubImageAsync(int productId, int imageId);
     }
 }

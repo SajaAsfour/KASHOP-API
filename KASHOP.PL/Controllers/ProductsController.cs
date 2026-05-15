@@ -101,5 +101,16 @@ namespace KASHOP.PL.Controllers
                 message = _localizer["Success"].Value
             });
         }
+
+        [HttpDelete("{productId}/sub-images/{imageId}")]
+        public async Task<IActionResult> DeleteSubImage(int productId,int imageId)
+        {
+            var result = await _productService.DeleteSubImageAsync(productId, imageId);
+            if(!result) return BadRequest();
+            return Ok(new
+            {
+                message = _localizer["Success"].Value
+            });
+        }
     }
 }

@@ -72,6 +72,28 @@ namespace KASHOP.BLL.Service
             return await _productRepository.DeleteAsync(product);
         }
 
+        public async Task<bool> DeleteSubImageAsync(int productId, int imageId)
+        {
+            var product = await _productRepository.GetOneAsync(
+                filter: p => p.Id == productId,
+                includes: new[]
+                {
+                    nameof(Product.SubImages)
+                });
+
+            if(product == null) return false;
+
+            var image = product.SubImages.FirstOrDefault(x => x.Id == imageId);
+
+            if(image == null) return false;
+
+            _fileService.DeleteAsync(image.ImagePath);
+
+            product.SubImages.Remove(image);
+
+            return await _productRepository.UpdateAsync(product);
+        }
+
         public async Task<PaginationResponse<ProductResponse>> GetAllProductsAsync(PaginationRequest request)
         {
             var query = _productRepository.GetQueryable(
