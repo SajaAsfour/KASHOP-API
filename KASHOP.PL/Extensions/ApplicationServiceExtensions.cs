@@ -39,6 +39,8 @@ namespace KASHOP.PL.Extensions
             Services.Configure<StripeSettings>(Configuration.GetSection("Stripe"));
             StripeConfiguration.ApiKey = Configuration["Stripe:SecretKey"];
 
+            Services.AddScoped<IOrderService, OrderService>();
+
             return Services;
         }
     }

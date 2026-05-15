@@ -1,0 +1,38 @@
+﻿using KASHOP.DAL.DTO.Response;
+using KASHOP.DAL.Models;
+using KASHOP.DAL.Repositry;
+using MapsterMapper;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace KASHOP.BLL.Service
+{
+    public class OrderService : IOrderService
+    {
+        private readonly IOrderRepository _orderRepository;
+        private readonly IMapper _mapper;
+
+        public OrderService(IOrderRepository orderRepository,IMapper mapper)
+        {
+            _orderRepository = orderRepository;
+            _mapper = mapper;
+        }
+        public async Task<List<OrderResponse>> GetUserOrdersAsync(string userId)
+        {
+            var orders = await _orderRepository.GetAllAsync(
+                filter: o => o.UserId == userId,
+                includes: new[]
+                {
+                    nameof(Order.OrderItems),
+                    $"{nameof(Order.OrderItems)}.{nameof(OrderItem.Product)}",
+                    $"{nameof(Order.OrderItems)}.{nameof(OrderItem.Product)}.{nameof(Product.Translations)}"
+                } 
+                );
+
+            return _mapper.Map<List<OrderResponse>>(orders);
+        }
+    }
+}

@@ -68,6 +68,9 @@ namespace KASHOP.BLL.Mapping
                 .Map(dest => dest.ProductImage , source => MapContext.Current.GetService<IUrlService>()
                 .GetImageUrl(source.Product.MainImage));
 
+            TypeAdapterConfig<OrderItem, OrderItemResponse>.NewConfig()
+                .Map(dest => dest.ProductName, src => src.Product.Translations.FirstOrDefault().Name);
+
         }
     }
 }
