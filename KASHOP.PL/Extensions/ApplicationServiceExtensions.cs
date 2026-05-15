@@ -41,6 +41,8 @@ namespace KASHOP.PL.Extensions
 
             Services.AddScoped<IOrderService, OrderService>();
 
+            Services.AddScoped<IUserManagementSerivce, UserManagementSerivce>();
+
             return Services;
         }
     }

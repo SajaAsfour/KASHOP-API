@@ -1,6 +1,8 @@
 ﻿using KASHOP.DAL.DTO.Response;
 using KASHOP.DAL.Models;
+using MapsterMapper;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,10 +14,12 @@ namespace KASHOP.BLL.Service
     public class UserManagementSerivce : IUserManagementSerivce
     {
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IMapper _mapper;
 
-        public UserManagementSerivce(UserManager<ApplicationUser> userManager)
+        public UserManagementSerivce(UserManager<ApplicationUser> userManager ,IMapper mapper)
         {
             _userManager = userManager;
+            _mapper = mapper;
         }
 
         public Task<bool> ChangeRoleAsync(string userId, string role)
@@ -28,9 +32,11 @@ namespace KASHOP.BLL.Service
             throw new NotImplementedException();
         }
 
-        public Task<List<UserListResponse>> GetAllUsersAsync()
+        public async Task<List<UserListResponse>> GetAllUsersAsync()
         {
-            throw new NotImplementedException();
+            var users = await _userManager.Users.ToListAsync();
+
+            return _mapper.Map<List<UserListResponse>>(users);
         }
 
         public Task<UserDetailsResponse> GetUserAsync(string userId)
