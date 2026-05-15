@@ -66,9 +66,22 @@ namespace KASHOP.BLL.Service
             return result;
         }
 
-        public Task<bool> ToggleBlockUserAsync(string userId)
+        public async Task<bool> ToggleBlockUserAsync(string userId)
         {
-            throw new NotImplementedException();
+            var user = await _userManager.FindByIdAsync(userId);
+
+            bool IsBlocked = user.LockoutEnd > DateTime.UtcNow;
+
+            if (IsBlocked)
+            {
+                await _userManager.SetLockoutEndDateAsync(user, null);
+            }
+            else
+            {
+                await _userManager.SetLockoutEnabledAsync(user, true);
+                await _userManager.SetLockoutEndDateAsync(user, DateTime.UtcNow.AddDays(5));
+            }
+            return true;
         }
     }
 }

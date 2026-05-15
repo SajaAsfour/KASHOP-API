@@ -71,6 +71,13 @@ namespace KASHOP.BLL.Mapping
             TypeAdapterConfig<OrderItem, OrderItemResponse>.NewConfig()
                 .Map(dest => dest.ProductName, src => src.Product.Translations.FirstOrDefault().Name);
 
+            TypeAdapterConfig<ApplicationUser, UserListResponse>.NewConfig()
+                .Map(dest => dest.IsBlocked, src =>
+                   src.LockoutEnd != null && src.LockoutEnd > DateTimeOffset.UtcNow);
+
+            TypeAdapterConfig<ApplicationUser, UserDetailsResponse>.NewConfig()
+                .Map(dest => dest.IsBlocked, src =>
+                   src.LockoutEnd != null && src.LockoutEnd > DateTimeOffset.UtcNow);
         }
     }
 }

@@ -59,5 +59,19 @@ namespace KASHOP.PL.Controllers
                 message = _localizer["Success"].Value,
             });
         }
+
+        [HttpPatch("users/{userId}/toggle-block")]
+        //[Authorize(Roles = "Admin")]
+        public async Task<IActionResult> ToggleBlock(string userId)
+        {
+            var result = await _userManagementSerivce.ToggleBlockUserAsync(userId);
+
+            if (!result) return BadRequest();
+
+            return Ok(new
+            {
+                message = _localizer["Success"].Value,
+            });
+        }
     }
 }
