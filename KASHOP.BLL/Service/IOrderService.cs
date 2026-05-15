@@ -1,4 +1,5 @@
 ﻿using KASHOP.DAL.DTO.Response;
+using KASHOP.DAL.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,5 +13,6 @@ namespace KASHOP.BLL.Service
         Task<List<OrderResponse>> GetUserOrdersAsync(string userId);
         Task<OrderDetailsResponse?> GetUserOrderAsync(string userId, int orderId);
         Task<bool> CancleOrderAsync(string userId , int orderId);
+        Task<List<OrderResponse>> GetAllOrdersAsync(OrderStatusEnum status);
     }
 }

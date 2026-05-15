@@ -34,6 +34,13 @@ namespace KASHOP.BLL.Service
             return await _orderRepository.UpdateAsync(order);
         }
 
+        public async Task<List<OrderResponse>> GetAllOrdersAsync(OrderStatusEnum status)
+        {
+            var orders = await _orderRepository.GetAllAsync(filter: o => o.OrderStatus == status);
+
+            return _mapper.Map<List<OrderResponse>>(orders);
+        }
+
         public async Task<OrderDetailsResponse?> GetUserOrderAsync(string userId, int orderId)
         {
             var order = await _orderRepository.GetOneAsync(

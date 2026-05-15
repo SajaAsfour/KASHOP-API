@@ -1,4 +1,5 @@
 ﻿using KASHOP.BLL.Service;
+using KASHOP.DAL.Models;
 using KASHOP.PL.Resourses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -55,6 +56,18 @@ namespace KASHOP.PL.Controllers
             return Ok(new
             {
                 message = _localizer["Success"].Value,
+            });
+        }
+
+        [HttpGet("admin")]
+        //[Authorize(Roles ="Admin")]
+        public async Task<IActionResult> GetAllOrders([FromQuery] OrderStatusEnum status = OrderStatusEnum.Pending)
+        {
+            var orders = await _orderService.GetAllOrdersAsync(status);
+            return Ok(new
+            {
+                message = _localizer["Success"].Value,
+                data = orders
             });
         }
     }
