@@ -15,16 +15,30 @@ namespace KASHOP.BLL.Service
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IMapper _mapper;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
-        public UserManagementSerivce(UserManager<ApplicationUser> userManager ,IMapper mapper)
+        public UserManagementSerivce(UserManager<ApplicationUser> userManager ,IMapper mapper,
+            RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _mapper = mapper;
+            _roleManager = roleManager;
         }
 
-        public Task<bool> ChangeRoleAsync(string userId, string role)
+        public async Task<bool> ChangeRoleAsync(string userId, string role)
         {
-            throw new NotImplementedException();
+            var user = await _userManager.FindByIdAsync(userId);
+
+            var roleExists = await _roleManager.RoleExistsAsync(role);
+
+            if(!roleExists) return false;
+
+            var currentRole = await _userManager.GetRolesAsync(user);
+            await _userManager.RemoveFromRolesAsync(user, currentRole);
+
+            var result = await _userManager.AddToRoleAsync(user, role);
+
+            return result.Succeeded;
         }
 
         public Task<bool> DeleteUserAsync(string userId)

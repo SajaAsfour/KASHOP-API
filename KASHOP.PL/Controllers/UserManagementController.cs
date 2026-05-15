@@ -1,4 +1,5 @@
 ﻿using KASHOP.BLL.Service;
+using KASHOP.DAL.DTO.Request;
 using KASHOP.PL.Resourses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -42,6 +43,20 @@ namespace KASHOP.PL.Controllers
             {
                 message = _localizer["Success"].Value,
                 data = user
+            });
+        }
+
+        [HttpPatch("users/{userId}/role")]
+        //[Authorize(Roles = "Admin")]
+        public async Task<IActionResult> ChangeRole(string userId , [FromBody] ChangeRoleRequest request)
+        {
+            var result = await _userManagementSerivce.ChangeRoleAsync(userId ,request.newRole);
+
+            if(!result) return BadRequest();
+
+            return Ok(new
+            {
+                message = _localizer["Success"].Value,
             });
         }
     }
