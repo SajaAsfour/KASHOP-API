@@ -20,6 +20,21 @@ namespace KASHOP.BLL.Service
             _orderRepository = orderRepository;
             _mapper = mapper;
         }
+
+        public async Task<OrderDetailsResponse?> GetUserOrderAsync(string userId, int orderId)
+        {
+            var order = await _orderRepository.GetOneAsync(
+                filter: o => o.UserId == userId && o.Id == orderId,
+                includes: new[]
+                {
+                    nameof(Order.OrderItems),
+                    $"{nameof(Order.OrderItems)}.{nameof(OrderItem.Product)}",
+                    $"{nameof(Order.OrderItems)}.{nameof(OrderItem.Product)}.{nameof(Product.Translations)}"
+                }
+                );
+            return _mapper.Map<OrderDetailsResponse>(order);
+        }
+
         public async Task<List<OrderResponse>> GetUserOrdersAsync(string userId)
         {
             var orders = await _orderRepository.GetAllAsync(

@@ -33,5 +33,16 @@ namespace KASHOP.PL.Controllers
                 data = orders
             });
         }
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetUserOrder(int id)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var order = await _orderService.GetUserOrderAsync(userId,id);
+            return Ok(new
+            {
+                message = _localizer["Success"].Value,
+                data = order
+            });
+        }
     }
 }

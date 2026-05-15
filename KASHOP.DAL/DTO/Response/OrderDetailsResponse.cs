@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace KASHOP.DAL.DTO.Response
 {
-    public class OrderResponse
+    public class OrderDetailsResponse
     {
         public int Id { get; set; }
         public string City { get; set; }
@@ -17,6 +17,7 @@ namespace KASHOP.DAL.DTO.Response
         public decimal AmountPaid { get; set; }
         public OrderStatusEnum OrderStatus { get; set; }
         public PaymentMethodEnum PaymentMethod { get; set; }
-        public DateTime OrderDate {  get; set; }
+        public DateTime OrderDate { get; set; }
+        public List<OrderItemResponse> OrderItems { get; set; }
     }
 }

@@ -10,5 +10,6 @@ namespace KASHOP.BLL.Service
     public interface IOrderService
     {
         Task<List<OrderResponse>> GetUserOrdersAsync(string userId);
+        Task<OrderDetailsResponse?> GetUserOrderAsync(string userId, int orderId);
     }
 }
