@@ -39,9 +39,17 @@ namespace KASHOP.BLL.Service
             return _mapper.Map<List<UserListResponse>>(users);
         }
 
-        public Task<UserDetailsResponse> GetUserAsync(string userId)
+        public async Task<UserDetailsResponse> GetUserAsync(string userId)
         {
-            throw new NotImplementedException();
+            var user = await _userManager.FindByIdAsync(userId);
+
+            var roles = await _userManager.GetRolesAsync(user);
+
+            var result = _mapper.Map<UserDetailsResponse>(user);
+
+            result.Role = roles.FirstOrDefault();
+
+            return result;
         }
 
         public Task<bool> ToggleBlockUserAsync(string userId)

@@ -32,5 +32,17 @@ namespace KASHOP.PL.Controllers
                 data = users
             });
         }
+
+        [HttpGet("users/{userId}")]
+        //[Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GetUser(string userId)
+        {
+            var user = await _userManagementSerivce.GetUserAsync(userId);
+            return Ok(new
+            {
+                message = _localizer["Success"].Value,
+                data = user
+            });
+        }
     }
 }
