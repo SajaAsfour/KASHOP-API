@@ -44,5 +44,18 @@ namespace KASHOP.PL.Controllers
                 data = order
             });
         }
+
+        [HttpPatch("{id}")]
+        public async Task<IActionResult> CancleOrder(int id)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var result = await _orderService.CancleOrderAsync(userId, id);
+            if(!result) 
+                return BadRequest();
+            return Ok(new
+            {
+                message = _localizer["Success"].Value,
+            });
+        }
     }
 }

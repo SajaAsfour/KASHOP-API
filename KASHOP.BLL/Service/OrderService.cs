@@ -21,6 +21,19 @@ namespace KASHOP.BLL.Service
             _mapper = mapper;
         }
 
+        public async Task<bool> CancleOrderAsync(string userId, int orderId)
+        {
+            var order = await _orderRepository.GetOneAsync(filter: o => o.UserId  == userId && o.Id == orderId);
+
+            if(order == null) return false;
+
+            if(order.OrderStatus != OrderStatusEnum.Pending) return false;
+
+            order.OrderStatus = OrderStatusEnum.Cancelled;
+
+            return await _orderRepository.UpdateAsync(order);
+        }
+
         public async Task<OrderDetailsResponse?> GetUserOrderAsync(string userId, int orderId)
         {
             var order = await _orderRepository.GetOneAsync(

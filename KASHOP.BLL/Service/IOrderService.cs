@@ -11,5 +11,6 @@ namespace KASHOP.BLL.Service
     {
         Task<List<OrderResponse>> GetUserOrdersAsync(string userId);
         Task<OrderDetailsResponse?> GetUserOrderAsync(string userId, int orderId);
+        Task<bool> CancleOrderAsync(string userId , int orderId);
     }
 }
