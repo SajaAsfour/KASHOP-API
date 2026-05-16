@@ -24,6 +24,8 @@ namespace KASHOP.DAL.Data
 
         public DbSet<ProductImage> ProductImages { get; set; }
 
+        public DbSet<Review> Reviews { get; set; }
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
             ,IHttpContextAccessor httpContextAccessor) 
             : base(options)
