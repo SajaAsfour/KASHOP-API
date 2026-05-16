@@ -21,5 +21,6 @@ namespace KASHOP.DAL.Models
         public Brand Brand { get; set; }
 
         public List<ProductImage> SubImages { get; set; }
+        public List<Review> Reviews { get; set; }
     }
 }

@@ -102,7 +102,8 @@ namespace KASHOP.BLL.Service
             {
                 nameof(Product.Translations) ,
                 nameof(Product.CreatedBy),
-                nameof(Product.SubImages)
+                nameof(Product.SubImages),
+                nameof(Product.Reviews)
             });
 
             //search 
@@ -142,7 +143,8 @@ namespace KASHOP.BLL.Service
             {
                 nameof(Product.Translations) ,
                 nameof(Product.CreatedBy),
-                nameof(Product.SubImages)
+                nameof(Product.SubImages),
+                nameof(Product.Reviews)
             });
             if(product == null) return null;
             

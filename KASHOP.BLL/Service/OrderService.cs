@@ -65,10 +65,26 @@ namespace KASHOP.BLL.Service
                 {
                     nameof(Order.OrderItems),
                     $"{nameof(Order.OrderItems)}.{nameof(OrderItem.Product)}",
-                    $"{nameof(Order.OrderItems)}.{nameof(OrderItem.Product)}.{nameof(Product.Translations)}"
+                    $"{nameof(Order.OrderItems)}.{nameof(OrderItem.Product)}.{nameof(Product.Translations)}",
+                    $"{nameof(Order.OrderItems)}.{nameof(OrderItem.Product)}.{nameof(Product.Reviews)}"
                 }
-                );
-            return _mapper.Map<OrderDetailsResponse>(order);
+            );
+
+            if (order == null) return null;
+
+            var response = _mapper.Map<OrderDetailsResponse>(order);
+
+            foreach (var item in response.OrderItems)
+            {
+                var orderItem = order.OrderItems
+                    .FirstOrDefault(oi => oi.ProductId == item.ProductId);
+
+                item.Comment = orderItem?.Product?.Reviews?
+                    .FirstOrDefault(r => r.UserId == order.UserId && r.ProductId == item.ProductId)
+                    ?.Comment;
+            }
+
+            return response;
         }
 
         public async Task<List<OrderResponse>> GetUserOrdersAsync(string userId)
