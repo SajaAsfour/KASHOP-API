@@ -65,6 +65,8 @@ namespace KASHOP.PL
             app.UseStaticFiles();
             app.MapControllers();
 
+            app.UseExceptionHandlingMiddleware();
+
             using (var scope = app.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
