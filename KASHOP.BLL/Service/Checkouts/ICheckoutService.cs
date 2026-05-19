@@ -1,5 +1,5 @@
-﻿using KASHOP.DAL.DTO.Request;
-using KASHOP.DAL.DTO.Response;
+﻿using KASHOP.DAL.DTO.Request.Checkouts;
+using KASHOP.DAL.DTO.Response.Checkouts;
 using System;
 using System.Collections.Generic;
 using System.Linq;

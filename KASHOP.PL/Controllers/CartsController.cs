@@ -1,7 +1,6 @@
 ﻿using KASHOP.BLL.Service.Carts;
 using KASHOP.DAL;
-using KASHOP.DAL.DTO.Request;
-using KASHOP.DAL.Request;
+using KASHOP.DAL.DTO.Request.Carts;
 using KASHOP.PL.Resourses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;

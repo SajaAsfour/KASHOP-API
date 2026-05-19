@@ -1,4 +1,4 @@
-﻿using KASHOP.DAL.DTO.Request;
+﻿using KASHOP.DAL.DTO.Request.Reviews;
 using KASHOP.DAL.Models;
 using KASHOP.DAL.Repositry;
 using MapsterMapper;

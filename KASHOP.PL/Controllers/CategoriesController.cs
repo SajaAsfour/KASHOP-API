@@ -1,5 +1,5 @@
 ﻿using KASHOP.BLL.Service.Categories;
-using KASHOP.DAL.DTO.Request;
+using KASHOP.DAL.DTO.Request.Categories;
 using KASHOP.PL.Resourses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

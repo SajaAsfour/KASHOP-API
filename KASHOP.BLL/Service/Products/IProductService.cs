@@ -1,7 +1,8 @@
-﻿using KASHOP.DAL.DTO.Request;
-using KASHOP.DAL.DTO.Response;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 using KASHOP.DAL.Models;
+using KASHOP.DAL.DTO.Request.Products;
+using KASHOP.DAL.DTO.Response.Paginations;
+using KASHOP.DAL.DTO.Response.Products;
 
 namespace KASHOP.BLL.Service.Products
 {

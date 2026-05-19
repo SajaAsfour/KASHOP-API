@@ -1,4 +1,4 @@
-﻿using KASHOP.DAL.DTO.Request;
+﻿using KASHOP.DAL.DTO.Request.Checkouts;
 using System;
 using System.Collections.Generic;
 using System.Linq;

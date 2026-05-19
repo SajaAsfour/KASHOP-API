@@ -1,4 +1,4 @@
-﻿using KASHOP.DAL.DTO.Response;
+﻿using KASHOP.DAL.DTO.Response.Paginations;
 using Microsoft.EntityFrameworkCore;
 
 namespace KASHOP.BLL.Extensions

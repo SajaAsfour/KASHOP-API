@@ -1,4 +1,4 @@
-﻿using KASHOP.DAL.DTO.Response;
+﻿using KASHOP.DAL.DTO.Response.UserManagements;
 using KASHOP.DAL.Models;
 using MapsterMapper;
 using Microsoft.AspNetCore.Identity;

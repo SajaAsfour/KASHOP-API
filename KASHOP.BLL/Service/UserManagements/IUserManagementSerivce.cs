@@ -1,4 +1,4 @@
-﻿using KASHOP.DAL.DTO.Response;
+﻿using KASHOP.DAL.DTO.Response.UserManagements;
 
 namespace KASHOP.BLL.Service.UserManagements
 {

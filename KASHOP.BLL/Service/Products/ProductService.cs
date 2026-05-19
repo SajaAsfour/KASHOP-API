@@ -1,7 +1,8 @@
 ﻿using KASHOP.BLL.Extensions;
 using KASHOP.BLL.Service.Files;
-using KASHOP.DAL.DTO.Request;
-using KASHOP.DAL.DTO.Response;
+using KASHOP.DAL.DTO.Request.Products;
+using KASHOP.DAL.DTO.Response.Paginations;
+using KASHOP.DAL.DTO.Response.Products;
 using KASHOP.DAL.Models;
 using KASHOP.DAL.Repositry;
 using Mapster;

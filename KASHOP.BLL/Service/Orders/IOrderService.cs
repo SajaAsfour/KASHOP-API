@@ -1,5 +1,5 @@
-﻿using KASHOP.DAL.DTO.Request;
-using KASHOP.DAL.DTO.Response;
+﻿using KASHOP.DAL.DTO.Request.Orders;
+using KASHOP.DAL.DTO.Response.Orders;
 using KASHOP.DAL.Models;
 
 namespace KASHOP.BLL.Service.Orders

@@ -1,7 +1,7 @@
 ﻿using KASHOP.BLL.Service.Carts;
 using KASHOP.BLL.Service.Email;
-using KASHOP.DAL.DTO.Request;
-using KASHOP.DAL.DTO.Response;
+using KASHOP.DAL.DTO.Request.Checkouts;
+using KASHOP.DAL.DTO.Response.Checkouts;
 using KASHOP.DAL.Models;
 using KASHOP.DAL.Repositry;
 using Microsoft.AspNetCore.Http;

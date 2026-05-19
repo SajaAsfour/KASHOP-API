@@ -1,6 +1,6 @@
 ﻿using KASHOP.BLL.Service.Files;
-using KASHOP.DAL.DTO.Request;
-using KASHOP.DAL.DTO.Response;
+using KASHOP.DAL.DTO.Request.Brands;
+using KASHOP.DAL.DTO.Response.Brands;
 using KASHOP.DAL.Models;
 using KASHOP.DAL.Repositry;
 using Mapster;

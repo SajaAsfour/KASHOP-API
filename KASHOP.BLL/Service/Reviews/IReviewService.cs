@@ -1,4 +1,4 @@
-﻿using KASHOP.DAL.DTO.Request;
+﻿using KASHOP.DAL.DTO.Request.Reviews;
 
 namespace KASHOP.BLL.Service.Reviews
 {

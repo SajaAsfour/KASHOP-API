@@ -1,5 +1,5 @@
-﻿using KASHOP.DAL.DTO.Request;
-using KASHOP.DAL.DTO.Response;
+﻿using KASHOP.DAL.DTO.Request.Categories;
+using KASHOP.DAL.DTO.Response.Categories;
 using KASHOP.DAL.Models;
 using System.Linq.Expressions;
 

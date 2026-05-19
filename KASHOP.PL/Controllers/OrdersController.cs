@@ -1,5 +1,5 @@
 ﻿using KASHOP.BLL.Service.Orders;
-using KASHOP.DAL.DTO.Request;
+using KASHOP.DAL.DTO.Request.Orders;
 using KASHOP.DAL.Models;
 using KASHOP.PL.Resourses;
 using Microsoft.AspNetCore.Authorization;

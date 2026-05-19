@@ -1,5 +1,5 @@
-﻿using KASHOP.DAL.DTO.Request;
-using KASHOP.DAL.DTO.Response;
+﻿using KASHOP.DAL.DTO.Request.Authentictions;
+using KASHOP.DAL.DTO.Response.Authentications;
 
 namespace KASHOP.BLL.Service.Authentication
 {

@@ -1,5 +1,5 @@
-﻿using KASHOP.DAL.DTO.Request;
-using KASHOP.DAL.DTO.Response;
+﻿using KASHOP.DAL.DTO.Request.Carts;
+using KASHOP.DAL.DTO.Response.Carts;
 using KASHOP.DAL.Models;
 using KASHOP.DAL.Repositry;
 using Mapster;

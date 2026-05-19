@@ -1,5 +1,5 @@
 ﻿using KASHOP.BLL.Service.Authentication;
-using KASHOP.DAL.DTO.Request;
+using KASHOP.DAL.DTO.Request.Authentictions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 

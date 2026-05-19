@@ -1,6 +1,6 @@
 ﻿using KASHOP.BLL.Service.Email;
-using KASHOP.DAL.DTO.Request;
-using KASHOP.DAL.DTO.Response;
+using KASHOP.DAL.DTO.Request.Authentictions;
+using KASHOP.DAL.DTO.Response.Authentications;
 using KASHOP.DAL.Models;
 using Mapster;
 using Microsoft.AspNetCore.Http;

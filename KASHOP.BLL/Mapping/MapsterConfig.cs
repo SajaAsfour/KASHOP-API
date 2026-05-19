@@ -1,6 +1,13 @@
 ﻿using KASHOP.BLL.Service.Urls;
-using KASHOP.DAL.DTO.Request;
-using KASHOP.DAL.DTO.Response;
+using KASHOP.DAL.DTO.Request.Brands;
+using KASHOP.DAL.DTO.Request.Categories;
+using KASHOP.DAL.DTO.Request.Products;
+using KASHOP.DAL.DTO.Response.Brands;
+using KASHOP.DAL.DTO.Response.Carts;
+using KASHOP.DAL.DTO.Response.Categories;
+using KASHOP.DAL.DTO.Response.Orders;
+using KASHOP.DAL.DTO.Response.Products;
+using KASHOP.DAL.DTO.Response.UserManagements;
 using KASHOP.DAL.Models;
 using Mapster;
 using System.Globalization;
