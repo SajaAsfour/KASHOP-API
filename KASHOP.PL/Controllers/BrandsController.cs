@@ -1,4 +1,4 @@
-﻿using KASHOP.BLL.Service.Brand;
+﻿using KASHOP.BLL.Service.Brands;
 using KASHOP.DAL.DTO.Request;
 using KASHOP.PL.Resourses;
 using Microsoft.AspNetCore.Authorization;

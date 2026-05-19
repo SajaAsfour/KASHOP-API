@@ -1,9 +1,7 @@
 ﻿using KASHOP.BLL.Service.Authentication;
-using KASHOP.BLL.Service.Brand;
-using KASHOP.BLL.Service.Cart;
+using KASHOP.BLL.Service.Brands;
 using KASHOP.BLL.Service.Carts;
 using KASHOP.BLL.Service.Categories;
-using KASHOP.BLL.Service.Category;
 using KASHOP.BLL.Service.Checkouts;
 using KASHOP.BLL.Service.Email;
 using KASHOP.BLL.Service.Files;
@@ -33,7 +31,7 @@ namespace KASHOP.PL.Extensions
 
             Services.AddTransient<IEmailSender, EmailSender>();
 
-            Services.AddScoped<IFileService, BLL.Service.File.FileService>();
+            Services.AddScoped<IFileService, BLL.Service.Files.FileService>();
             Services.AddScoped<IProductRepository, ProductRepository>();
             Services.AddScoped<IProductService, BLL.Service.Products.ProductService>();
 
@@ -45,7 +43,7 @@ namespace KASHOP.PL.Extensions
             Services.AddScoped<ICartRepository, CartRepository>();
             Services.AddScoped<ICartSerivce, CartSerivce>();
 
-            Services.AddScoped<ICheckoutService, BLL.Service.Checkout.CheckoutService>();
+            Services.AddScoped<ICheckoutService, BLL.Service.Checkouts.CheckoutService>();
 
             Services.AddScoped<IOrderRepository, OrderRepository>();
 
