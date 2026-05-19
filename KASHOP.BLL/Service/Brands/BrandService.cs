@@ -2,7 +2,7 @@
 using KASHOP.DAL.DTO.Request.Brands;
 using KASHOP.DAL.DTO.Response.Brands;
 using KASHOP.DAL.Models;
-using KASHOP.DAL.Repositry;
+using KASHOP.DAL.Repository.Brands;
 using Mapster;
 using MapsterMapper;
 using System.Linq.Expressions;

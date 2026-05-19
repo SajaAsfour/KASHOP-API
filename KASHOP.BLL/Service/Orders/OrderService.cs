@@ -1,7 +1,7 @@
 ﻿using KASHOP.DAL.DTO.Request.Orders;
 using KASHOP.DAL.DTO.Response.Orders;
 using KASHOP.DAL.Models;
-using KASHOP.DAL.Repositry;
+using KASHOP.DAL.Repository.Orders;
 using MapsterMapper;
 
 namespace KASHOP.BLL.Service.Orders

@@ -1,6 +1,7 @@
 ﻿using KASHOP.DAL.DTO.Request.Reviews;
 using KASHOP.DAL.Models;
-using KASHOP.DAL.Repositry;
+using KASHOP.DAL.Repository.Orders;
+using KASHOP.DAL.Repository.Reviews;
 using MapsterMapper;
 
 namespace KASHOP.BLL.Service.Reviews

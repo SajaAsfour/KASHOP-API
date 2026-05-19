@@ -1,9 +1,8 @@
 ﻿using KASHOP.DAL.Data;
-using KASHOP.DAL.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
-namespace KASHOP.DAL.Repositry
+namespace KASHOP.DAL.Repository.Generics
 {
     public class GenericRepository <T> : IGenericRepository<T> where T : class
     {

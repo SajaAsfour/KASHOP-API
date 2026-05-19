@@ -4,7 +4,7 @@ using KASHOP.DAL.DTO.Request.Products;
 using KASHOP.DAL.DTO.Response.Paginations;
 using KASHOP.DAL.DTO.Response.Products;
 using KASHOP.DAL.Models;
-using KASHOP.DAL.Repositry;
+using KASHOP.DAL.Repository.Products;
 using Mapster;
 using MapsterMapper;
 using System.Linq.Expressions;

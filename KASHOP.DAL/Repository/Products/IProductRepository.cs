@@ -1,11 +1,7 @@
 ﻿using KASHOP.DAL.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using KASHOP.DAL.Repository.Generics;
 
-namespace KASHOP.DAL.Repositry
+namespace KASHOP.DAL.Repository.Products
 {
     public interface IProductRepository : IGenericRepository<Product>
     {

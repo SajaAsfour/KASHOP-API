@@ -1,7 +1,7 @@
 ﻿using KASHOP.DAL.DTO.Request.Categories;
 using KASHOP.DAL.DTO.Response.Categories;
 using KASHOP.DAL.Models;
-using KASHOP.DAL.Repositry;
+using KASHOP.DAL.Repository.Categories;
 using Mapster;
 using System.Linq.Expressions;
 

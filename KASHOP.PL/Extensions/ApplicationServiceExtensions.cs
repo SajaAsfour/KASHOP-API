@@ -10,7 +10,12 @@ using KASHOP.BLL.Service.Products;
 using KASHOP.BLL.Service.Reviews;
 using KASHOP.BLL.Service.Urls;
 using KASHOP.BLL.Service.UserManagements;
-using KASHOP.DAL.Repositry;
+using KASHOP.DAL.Repository.Brands;
+using KASHOP.DAL.Repository.Carts;
+using KASHOP.DAL.Repository.Categories;
+using KASHOP.DAL.Repository.Orders;
+using KASHOP.DAL.Repository.Products;
+using KASHOP.DAL.Repository.Reviews;
 using KASHOP.DAL.utils;
 using Stripe;
 

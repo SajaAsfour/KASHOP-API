@@ -3,7 +3,7 @@ using KASHOP.BLL.Mapping;
 using KASHOP.BLL.Service;
 using KASHOP.DAL.Data;
 using KASHOP.DAL.Models;
-using KASHOP.DAL.Repositry;
+using KASHOP.DAL.Repository;
 using KASHOP.DAL.utils;
 using KASHOP.PL.Extensions;
 using Mapster;

@@ -1,7 +1,6 @@
-﻿using KASHOP.DAL.Models;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 
-namespace KASHOP.DAL.Repositry
+namespace KASHOP.DAL.Repository.Generics
 {
     public interface IGenericRepository <T> where T : class
     {
