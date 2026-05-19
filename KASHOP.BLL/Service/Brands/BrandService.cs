@@ -1,17 +1,13 @@
-﻿using KASHOP.DAL.DTO.Request;
+﻿using KASHOP.BLL.Service.Files;
+using KASHOP.DAL.DTO.Request;
 using KASHOP.DAL.DTO.Response;
 using KASHOP.DAL.Models;
 using KASHOP.DAL.Repositry;
 using Mapster;
 using MapsterMapper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace KASHOP.BLL.Service
+namespace KASHOP.BLL.Service.Brands
 {
     public class BrandService : IBrandService
     {

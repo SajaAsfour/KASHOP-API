@@ -1,4 +1,4 @@
-﻿using KASHOP.BLL.Service;
+﻿using KASHOP.BLL.Service.Checkouts;
 using KASHOP.DAL.DTO.Request;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;

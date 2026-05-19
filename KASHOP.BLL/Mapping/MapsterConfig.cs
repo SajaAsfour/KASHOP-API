@@ -1,14 +1,9 @@
-﻿using KASHOP.BLL.Service;
+﻿using KASHOP.BLL.Service.Urls;
 using KASHOP.DAL.DTO.Request;
 using KASHOP.DAL.DTO.Response;
 using KASHOP.DAL.Models;
 using Mapster;
-using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace KASHOP.BLL.Mapping
 {

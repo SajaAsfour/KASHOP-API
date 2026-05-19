@@ -1,17 +1,14 @@
-﻿using KASHOP.DAL.DTO.Request;
+﻿using KASHOP.BLL.Service.Carts;
+using KASHOP.BLL.Service.Email;
+using KASHOP.DAL.DTO.Request;
 using KASHOP.DAL.DTO.Response;
 using KASHOP.DAL.Models;
 using KASHOP.DAL.Repositry;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Stripe.Checkout;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace KASHOP.BLL.Service
+namespace KASHOP.BLL.Service.Checkouts
 {
     public class CheckoutService : ICheckoutService
     {

@@ -1,4 +1,17 @@
-﻿using KASHOP.BLL.Service;
+﻿using KASHOP.BLL.Service.Authentication;
+using KASHOP.BLL.Service.Brand;
+using KASHOP.BLL.Service.Cart;
+using KASHOP.BLL.Service.Carts;
+using KASHOP.BLL.Service.Categories;
+using KASHOP.BLL.Service.Category;
+using KASHOP.BLL.Service.Checkouts;
+using KASHOP.BLL.Service.Email;
+using KASHOP.BLL.Service.Files;
+using KASHOP.BLL.Service.Orders;
+using KASHOP.BLL.Service.Products;
+using KASHOP.BLL.Service.Reviews;
+using KASHOP.BLL.Service.Urls;
+using KASHOP.BLL.Service.UserManagements;
 using KASHOP.DAL.Repositry;
 using KASHOP.DAL.utils;
 using Stripe;
@@ -20,9 +33,9 @@ namespace KASHOP.PL.Extensions
 
             Services.AddTransient<IEmailSender, EmailSender>();
 
-            Services.AddScoped<IFileService, BLL.Service.FileService>();
+            Services.AddScoped<IFileService, BLL.Service.File.FileService>();
             Services.AddScoped<IProductRepository, ProductRepository>();
-            Services.AddScoped<IProductService, BLL.Service.ProductService>();
+            Services.AddScoped<IProductService, BLL.Service.Products.ProductService>();
 
             Services.AddScoped<IUrlService, UrlService>();
 
@@ -32,7 +45,7 @@ namespace KASHOP.PL.Extensions
             Services.AddScoped<ICartRepository, CartRepository>();
             Services.AddScoped<ICartSerivce, CartSerivce>();
 
-            Services.AddScoped<ICheckoutService, BLL.Service.CheckoutService>();
+            Services.AddScoped<ICheckoutService, BLL.Service.Checkout.CheckoutService>();
 
             Services.AddScoped<IOrderRepository, OrderRepository>();
 
@@ -44,7 +57,7 @@ namespace KASHOP.PL.Extensions
             Services.AddScoped<IUserManagementSerivce, UserManagementSerivce>();
             
             Services.AddScoped<IReviewRepository, ReviewRepository>();
-            Services.AddScoped<IReviewService, BLL.Service.ReviewService>();
+            Services.AddScoped<IReviewService, BLL.Service.Reviews.ReviewService>();
 
             return Services;
         }

@@ -1,4 +1,4 @@
-﻿using KASHOP.BLL.Service;
+﻿using KASHOP.BLL.Service.Reviews;
 using KASHOP.DAL.DTO.Request;
 using KASHOP.PL.Resourses;
 using Microsoft.AspNetCore.Authorization;

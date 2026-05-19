@@ -3,7 +3,7 @@ using KASHOP.DAL.DTO.Response;
 using KASHOP.DAL.Models;
 using System.Linq.Expressions;
 
-namespace KASHOP.BLL.Service
+namespace KASHOP.BLL.Service.Categories
 {
     public interface ICategoryService
     {

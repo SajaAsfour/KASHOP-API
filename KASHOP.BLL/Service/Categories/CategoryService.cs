@@ -5,7 +5,7 @@ using KASHOP.DAL.Repositry;
 using Mapster;
 using System.Linq.Expressions;
 
-namespace KASHOP.BLL.Service
+namespace KASHOP.BLL.Service.Categories
 {
     public class CategoryService : ICategoryService
     {

@@ -1,4 +1,5 @@
-﻿using KASHOP.DAL.DTO.Request;
+﻿using KASHOP.BLL.Service.Email;
+using KASHOP.DAL.DTO.Request;
 using KASHOP.DAL.DTO.Response;
 using KASHOP.DAL.Models;
 using Mapster;
@@ -7,15 +8,11 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace KASHOP.BLL.Service
+namespace KASHOP.BLL.Service.Authentication
 {
     public class AuthenticationService : IAuthenticationService
     {

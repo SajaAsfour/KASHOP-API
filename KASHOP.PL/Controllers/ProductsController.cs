@@ -1,5 +1,5 @@
 ﻿using Azure;
-using KASHOP.BLL.Service;
+using KASHOP.BLL.Service.Products;
 using KASHOP.DAL.DTO.Request;
 using KASHOP.PL.Resourses;
 using Microsoft.AspNetCore.Authorization;

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KASHOP.BLL.Service
+namespace KASHOP.BLL.Service.Checkouts
 {
     public interface ICheckoutService
     {

@@ -1,4 +1,4 @@
-﻿using KASHOP.BLL.Service;
+﻿using KASHOP.BLL.Service.UserManagements;
 using KASHOP.DAL.DTO.Request;
 using KASHOP.PL.Resourses;
 using Microsoft.AspNetCore.Authorization;
